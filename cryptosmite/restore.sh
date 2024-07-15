@@ -5,12 +5,12 @@ if [ $(id -u) -gt 0 ]; then
     echo "Please run $0 as root"
     exit 0
 fi
-
+mkdir /back
 # Define paths and variables
 STATEFUL_PART="/mnt/stateful_partition"
 ENCSTATEFUL_MNT=$(mktemp -d)
 CRYPTSETUP_PATH="/usr/local/bin/cryptsetup_$(arch)"
-BACKUP_PATH="/saved_stateful.tar.gz"
+BACKUP_PATH="/back/saved_stateful.tar.gz"
 
 # Function to clean up mounts and devices
 cleanup() {
