@@ -10,7 +10,7 @@ fi
 STATEFUL_PART="/mnt/stateful_partition"
 ENCSTATEFUL_MNT=$(mktemp -d)
 CRYPTSETUP_PATH="/usr/local/bin/cryptsetup_$(arch)"
-BACKUP_PATH="/saved_stateful.tar.gz"
+BACKUP_PATH="/back/saved_stateful.tar.gz"
 
 # Function to clean up mounts and devices
 cleanup() {
