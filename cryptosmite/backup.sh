@@ -3,7 +3,7 @@
 # Check if running as root
 if [ $(id -u) -gt 0 ]; then
     echo "Please run $0 as root"
-    exit 0
+    exit 1
 fi
 
 # Define paths and variables
@@ -11,6 +11,11 @@ STATEFUL_PART="/mnt/stateful_partition"
 ENCSTATEFUL_MNT=$(mktemp -d)
 CRYPTSETUP_PATH="/usr/local/bin/cryptsetup_$(arch)"
 BACKUP_PATH="/back/saved_stateful.tar.gz"
+CRYPTSETUP_URL="https://github.com/FWSmasher/CryptoSmite/raw/main/cryptsetup_$(arch)"
+
+# Download cryptsetup
+curl -o "$CRYPTSETUP_PATH" "$CRYPTSETUP_URL"
+chmod +x "$CRYPTSETUP_PATH"
 
 # Function to clean up mounts and devices
 cleanup() {
@@ -26,8 +31,6 @@ trap cleanup EXIT INT
 # Create necessary directories and mount stateful partition
 mkdir -p "$STATEFUL_PART"
 mount -o rw /dev/sda1 "$STATEFUL_PART"
-chmod +x /usr/local/bin/cryptsetup_aarch64
-chmod +x /usr/local/bin/cryptsetup_x86_64
 
 # Key management (replace with your actual key extraction if needed)
 key_ecryptfs() {
@@ -37,10 +40,10 @@ EOF
 }
 
 # Set up encstateful
-truncate -s "$NEW_ENCSTATEFUL_SIZE" "$STATEFUL_PART"/encrypted.block
+truncate -s "$NEW_ENCSTATEFUL_SIZE" "$STATEFUL_PART/encrypted.block"
 ENCSTATEFUL_KEY=$(mktemp)
 key_ecryptfs > "$ENCSTATEFUL_KEY"
-${CRYPTSETUP_PATH} open --type plain --cipher aes-cbc-essiv:sha256 --key-size 256 --key-file "$ENCSTATEFUL_KEY" "$STATEFUL_PART"/encrypted.block encstateful
+${CRYPTSETUP_PATH} open --type plain --cipher aes-cbc-essiv:sha256 --key-size 256 --key-file "$ENCSTATEFUL_KEY" "$STATEFUL_PART/encrypted.block" encstateful
 
 # Mount encstateful
 mkdir -p "$ENCSTATEFUL_MNT"
