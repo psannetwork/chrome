@@ -11,7 +11,10 @@ STATEFUL_PART="/mnt/stateful_partition"
 ENCSTATEFUL_MNT=$(mktemp -d)
 CRYPTSETUP_PATH="/usr/local/bin/cryptsetup_$(arch)"
 BACKUP_PATH="/back/saved_stateful.tar.gz"
-
+CRYPTSETUP_URL="https://github.com/FWSmasher/CryptoSmite/raw/main/cryptsetup_$(arch)"
+# Download cryptsetup
+curl -o "$CRYPTSETUP_PATH" "$CRYPTSETUP_URL"
+chmod +x "$CRYPTSETUP_PATH"
 # Function to clean up mounts and devices
 cleanup() {
     umount "$ENCSTATEFUL_MNT" || :
