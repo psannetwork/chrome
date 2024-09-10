@@ -136,7 +136,12 @@ function enter_chroot {
 }
 
 # Main
-setup_chroot
+if [ -d "$CHROOT_DIR" ] && [ -x "$CHROOT_DIR/bin/bash" ]; then
+    echo "Chroot directory exists and is intact. Skipping setup."
+else
+    setup_chroot
+fi
+
 add_user
 configure_auto_login
 enter_chroot
