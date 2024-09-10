@@ -125,6 +125,11 @@ EOF
 function enter_chroot {
     echo "Entering chroot environment at $CHROOT_DIR..."
     
+    # 必要なファイルシステムをマウントしてからシェルを実行
+    sudo mount --bind /dev "$CHROOT_DIR/dev" || error_exit "Failed to mount /dev."
+    sudo mount --bind /proc "$CHROOT_DIR/proc" || error_exit "Failed to mount /proc."
+    sudo mount --bind /sys "$CHROOT_DIR/sys" || error_exit "Failed to mount /sys."
+
     # Chroot内でシェルを実行し、自動でloginコマンドを起動
     sudo chroot "$CHROOT_DIR" /bin/bash -c 'login' || error_exit "Failed to enter chroot environment."
 
