@@ -124,7 +124,9 @@ EOF
 # Chroot環境に入る
 function enter_chroot {
     echo "Entering chroot environment at $CHROOT_DIR..."
-    sudo chroot "$CHROOT_DIR" /bin/bash || error_exit "Failed to enter chroot environment."
+    
+    # Chroot内でシェルを実行し、自動でloginコマンドを起動
+    sudo chroot "$CHROOT_DIR" /bin/bash -c 'login' || error_exit "Failed to enter chroot environment."
 
     # Chrootから出た後の後処理
     echo "Cleaning up..."
