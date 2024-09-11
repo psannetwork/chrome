@@ -7,8 +7,7 @@ function error_exit {
 }
 
 # Chroot環境のディレクトリを設定
-CHROOT_DIR="/srv/chroot/ubuntu-focal-arm64"
-ALTERNATE_CHROOT_DIR="/usr/local/ubuntu-focal-arm64"
+CHROOT_DIR="/usr/local/ubuntu-focal-arm64"
 
 # RootfsのURLを設定（ARM64とx86_64のURLを自動で選択する）
 function get_rootfs_url {
@@ -46,8 +45,7 @@ function setup_chroot {
 
     # ディスク容量をチェック（例えば2GB必要）
     if ! check_disk_space "$CHROOT_DIR" 2048; then
-        echo "Switching to alternate directory due to insufficient space."
-        CHROOT_DIR="$ALTERNATE_CHROOT_DIR"
+        error_exit "Insufficient disk space in $CHROOT_DIR."
     fi
 
     # Chrootディレクトリが存在する場合は削除
