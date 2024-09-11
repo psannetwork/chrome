@@ -2,6 +2,22 @@
 
 set -e  # エラーが発生した場合にスクリプトを停止する
 
+# 必要なパッケージのチェックとインストール
+echo "Checking for required packages..."
+
+# 必要なパッケージのリスト
+REQUIRED_PACKAGES="curl bash"
+
+for pkg in $REQUIRED_PACKAGES; do
+    if ! command -v $pkg &> /dev/null; then
+        echo "$pkg not found. Installing..."
+        sudo apt-get update
+        sudo apt-get install -y $pkg
+    else
+        echo "$pkg is already installed."
+    fi
+done
+
 # スクリプトの開始メッセージ
 echo "Starting Node.js setup..."
 
