@@ -56,6 +56,7 @@ if ! npm -v; then
     echo "Error: npm installation verification failed."
     exit 1
 fi
+source ~/.bashrc
 
 # スクリプトの終了メッセージ
 echo "Node.js setup completed successfully."
