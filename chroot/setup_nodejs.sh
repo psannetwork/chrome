@@ -57,6 +57,7 @@ if ! npm -v; then
     exit 1
 fi
 source ~/.bashrc
+npm install -g npm
 
 # スクリプトの終了メッセージ
 echo "Node.js setup completed successfully."
