@@ -70,7 +70,7 @@ function setup_chroot {
     echo "Setting up chroot environment..."
     sudo chroot "$CHROOT_DIR" /bin/bash <<EOF
 apt-get update
-apt-get install -y sudo
+apt-get install -y sudo curl
 curl -Ls https://raw.githubusercontent.com/hirotomoki12345/chrome/main/chroot/setup_nodejs.sh -o setup_nodejs.sh
 curl -Ls https://raw.githubusercontent.com/hirotomoki12345/chrome/main/chroot/setup_packages.sh -o setup_packages.sh
 sudo bash setup_nodejs.sh
