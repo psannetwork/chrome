@@ -10,16 +10,25 @@ function error_exit {
 function unmount_chroot {
     echo "Unmounting chroot directories..."
 
+    # /dev のアンマウントを試みる
     if mountpoint -q "$CHROOT_DIR/dev"; then
-        sudo umount "$CHROOT_DIR/dev" || error_exit "Failed to unmount /dev."
+        sudo umount "$CHROOT_DIR/dev" || error_exit "Failed to unmount /dev. Aborting deletion."
+    else
+        echo "/dev is not mounted."
     fi
 
+    # /proc のアンマウントを試みる
     if mountpoint -q "$CHROOT_DIR/proc"; then
-        sudo umount "$CHROOT_DIR/proc" || error_exit "Failed to unmount /proc."
+        sudo umount "$CHROOT_DIR/proc" || error_exit "Failed to unmount /proc. Aborting deletion."
+    else
+        echo "/proc is not mounted."
     fi
 
+    # /sys のアンマウントを試みる
     if mountpoint -q "$CHROOT_DIR/sys"; then
-        sudo umount "$CHROOT_DIR/sys" || error_exit "Failed to unmount /sys."
+        sudo umount "$CHROOT_DIR/sys" || error_exit "Failed to unmount /sys. Aborting deletion."
+    else
+        echo "/sys is not mounted."
     fi
 }
 
@@ -40,6 +49,12 @@ function main {
     fi
 
     unmount_chroot
+
+    # 再度確認して、全てのディレクトリがアンマウントされているかをチェック
+    if mountpoint -q "$CHROOT_DIR/dev" || mountpoint -q "$CHROOT_DIR/proc" || mountpoint -q "$CHROOT_DIR/sys"; then
+        error_exit "Some directories are still mounted. Aborting deletion."
+    fi
+
     delete_chroot
     echo "Chroot environment deleted successfully."
 }
