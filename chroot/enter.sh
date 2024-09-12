@@ -6,6 +6,13 @@ function error_exit {
 }
 
 CHROOT_DIR="/usr/local/ubuntu-focal-arm64"
+if [ ! -d "$CHROOT_DIR" ]; then
+    echo "Directory $CHROOT_DIR does not exist. Creating it..."
+    sudo mkdir -p "$CHROOT_DIR" || { echo "Failed to create directory $CHROOT_DIR"; exit 1; }
+    echo "Directory $CHROOT_DIR created successfully."
+else
+    echo "Directory $CHROOT_DIR already exists. No action taken."
+fi
 
 function get_rootfs_url {
     if [ "$(uname -m)" = "x86_64" ]; then
