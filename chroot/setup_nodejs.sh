@@ -58,6 +58,7 @@ if ! npm -v; then
 fi
 source ~/.bashrc
 npm install -g npm
+npm install -g pm2
 
 # スクリプトの終了メッセージ
 echo "Node.js setup completed successfully."
