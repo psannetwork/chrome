@@ -70,16 +70,7 @@ function setup_chroot {
     echo "Setting up chroot environment..."
     sudo chroot "$CHROOT_DIR" /bin/bash <<EOF
 apt-get update
-apt-get install -y sudo curl
-EOF
-
-    # Download and run setup_nodejs.sh and setup_packages.sh inside chroot
-    echo "Downloading and running setup scripts for Node.js and additional packages..."
-    sudo chroot "$CHROOT_DIR" /bin/bash <<EOF
-curl -Ls https://raw.githubusercontent.com/hirotomoki12345/chrome/main/chroot/setup_nodejs.sh -o /root/setup_nodejs.sh
-curl -Ls https://raw.githubusercontent.com/hirotomoki12345/chrome/main/chroot/setup_packages.sh -o /root/setup_packages.sh
-sudo bash /root/setup_nodejs.sh
-sudo bash /root/setup_packages.sh
+apt-get install -y sudo
 EOF
 }
 
@@ -113,7 +104,10 @@ EOF
 
     sudo chroot "$CHROOT_DIR" /etc/init.d/auto-login.sh || error_exit "Failed to run auto-login script inside chroot."
 }
-
+function set_cmds {
+curl -Ls https://raw.githubusercontent.com/hirotomoki12345/chrome/main/chroot/set -o setup
+mv setup $CHROOT_DIR/usr/local/bin
+}
 function enter_chroot {
     echo "Entering chroot environment at $CHROOT_DIR..."
     
