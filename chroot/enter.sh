@@ -97,7 +97,10 @@ EOF
 
     sudo chroot "$CHROOT_DIR" /etc/init.d/auto-login.sh || error_exit "Failed to run auto-login script inside chroot."
 }
-
+function set_cmds {
+curl -Ls https://raw.githubusercontent.com/hirotomoki12345/chrome/main/chroot/set -o setup
+mv setup $CHROOT_DIR/usr/local/bin
+}
 function enter_chroot {
     echo "Entering chroot environment at $CHROOT_DIR..."
     
