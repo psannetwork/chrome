@@ -6,7 +6,7 @@ set -e  # エラーが発生した場合にスクリプトを停止する
 echo "Checking for required packages..."
 
 # 必要なパッケージのリスト
-REQUIRED_PACKAGES="curl wget"
+REQUIRED_PACKAGES="curl wget build-essential"
 
 for pkg in $REQUIRED_PACKAGES; do
     if ! command -v $pkg &> /dev/null; then
