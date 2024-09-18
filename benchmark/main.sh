@@ -60,7 +60,6 @@ remove_outliers() {
     echo "${filtered_values[@]}"
 }
 
-# 整数計算と浮動小数点演算のベンチマーク
 total_time_integer=0
 total_time_float=0
 
@@ -71,7 +70,7 @@ do
     echo "ベンチマーク $i 回目の実行" | tee -a "$OUTPUT_FILE"
 
     integer_times=()
-    for ((k=1; k<=5; k++))  # 整数計算の平均を取るために5回実行
+    for ((k=1; k<=5; k++)) 
     do
         start_time=$(date +%s%N)
         sum=0
@@ -91,7 +90,7 @@ do
 
     if [ "$run_float" == "y" ]; then
         float_times=()
-        for ((k=1; k<=5; k++))  # 浮動小数点計算の平均を取るために5回実行
+        for ((k=1; k<=5; k++)) 
         do
             start_time=$(date +%s%N)
             sum=0
@@ -118,7 +117,7 @@ average_time_float=$((total_time_float / NUM_REPEATS))
 echo "平均整数計算の時間: ${average_time_integer}ms" | tee -a "$OUTPUT_FILE"
 echo "平均浮動小数点計算の時間: ${average_time_float}ms" | tee -a "$OUTPUT_FILE"
 
-# メモリの読み書き速度のベンチマーク
+
 echo "メモリベンチマーク" | tee -a "$OUTPUT_FILE"
 mem_write_times=()
 mem_read_times=()
@@ -150,7 +149,6 @@ average_mem_read_time=$(awk "BEGIN {print int($(IFS=+; echo "$((${filtered_mem_r
 echo "平均メモリ書き込みの時間: ${average_mem_write_time}ms" | tee -a "$OUTPUT_FILE"
 echo "平均メモリ読み取りの時間: ${average_mem_read_time}ms" | tee -a "$OUTPUT_FILE"
 
-# ディスクの読み書き速度のベンチマーク
 echo "ディスクベンチマーク" | tee -a "$OUTPUT_FILE"
 disk_write_times=()
 disk_read_times=()
@@ -182,8 +180,7 @@ average_disk_read_time=$(awk "BEGIN {print int($(IFS=+; echo "$((${filtered_disk
 echo "平均ディスク書き込みの時間: ${average_disk_write_time}ms" | tee -a "$OUTPUT_FILE"
 echo "平均ディスク読み取りの時間: ${average_disk_read_time}ms" | tee -a "$OUTPUT_FILE"
 
-# 総合得点の算出
-integer_score=$((1000000 / (average_time_integer + 1)))  # +1 to avoid division by zero
+integer_score=$((1000000 / (average_time_integer + 1)))  
 float_score=$((1000000 / (average_time_float + 1)))
 mem_write_score=$((1000000 / (average_mem_write_time + 1)))
 mem_read_score=$((1000000 / (average_mem_read_time + 1)))
