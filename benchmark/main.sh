@@ -10,6 +10,7 @@ OUTPUT_FILE="benchmark_results.txt"
 
 echo "ベンチマーク結果 - $(date)" | tee "$OUTPUT_FILE"
 
+# 整数計算と浮動小数点演算のベンチマーク
 total_time=0
 for ((i=1; i<=NUM_REPEATS; i++))
 do
@@ -41,7 +42,10 @@ done
 average_time=$((total_time / (NUM_REPEATS * 2)))
 echo "平均処理時間: ${average_time}ms" | tee -a "$OUTPUT_FILE"
 
+# メモリの読み書き速度のベンチマーク
 echo "メモリベンチマーク" | tee -a "$OUTPUT_FILE"
+total_mem_write_time=0
+total_mem_read_time=0
 for ((i=1; i<=NUM_REPEATS; i++))
 do
     echo "メモリベンチマーク $i 回目の実行" | tee -a "$OUTPUT_FILE"
@@ -51,17 +55,27 @@ do
     end_time=$(date +%s%N)
     mem_write_time=$(( (end_time - start_time) / 1000000 ))
     echo "メモリ書き込みの時間: ${mem_write_time}ms" | tee -a "$OUTPUT_FILE"
+    total_mem_write_time=$((total_mem_write_time + mem_write_time))
 
     start_time=$(date +%s%N)
     dd if=/tmp/memory_test of=/dev/null bs=1M count=100 iflag=direct 2>/dev/null
     end_time=$(date +%s%N)
     mem_read_time=$(( (end_time - start_time) / 1000000 ))
     echo "メモリ読み取りの時間: ${mem_read_time}ms" | tee -a "$OUTPUT_FILE"
+    total_mem_read_time=$((total_mem_read_time + mem_read_time))
 
     rm -f /tmp/memory_test
 done
 
+average_mem_write_time=$((total_mem_write_time / NUM_REPEATS))
+average_mem_read_time=$((total_mem_read_time / NUM_REPEATS))
+echo "平均メモリ書き込みの時間: ${average_mem_write_time}ms" | tee -a "$OUTPUT_FILE"
+echo "平均メモリ読み取りの時間: ${average_mem_read_time}ms" | tee -a "$OUTPUT_FILE"
+
+# ディスクの読み書き速度のベンチマーク
 echo "ディスクベンチマーク" | tee -a "$OUTPUT_FILE"
+total_disk_write_time=0
+total_disk_read_time=0
 for ((i=1; i<=NUM_REPEATS; i++))
 do
     echo "ディスクベンチマーク $i 回目の実行" | tee -a "$OUTPUT_FILE"
@@ -71,14 +85,21 @@ do
     end_time=$(date +%s%N)
     disk_write_time=$(( (end_time - start_time) / 1000000 ))
     echo "ディスク書き込みの時間: ${disk_write_time}ms" | tee -a "$OUTPUT_FILE"
+    total_disk_write_time=$((total_disk_write_time + disk_write_time))
 
     start_time=$(date +%s%N)
     dd if=/tmp/disk_test of=/dev/null bs=1M count=100 iflag=direct 2>/dev/null
     end_time=$(date +%s%N)
     disk_read_time=$(( (end_time - start_time) / 1000000 ))
     echo "ディスク読み取りの時間: ${disk_read_time}ms" | tee -a "$OUTPUT_FILE"
+    total_disk_read_time=$((total_disk_read_time + disk_read_time))
 
     rm -f /tmp/disk_test
 done
+
+average_disk_write_time=$((total_disk_write_time / NUM_REPEATS))
+average_disk_read_time=$((total_disk_read_time / NUM_REPEATS))
+echo "平均ディスク書き込みの時間: ${average_disk_write_time}ms" | tee -a "$OUTPUT_FILE"
+echo "平均ディスク読み取りの時間: ${average_disk_read_time}ms" | tee -a "$OUTPUT_FILE"
 
 echo "結果が ${OUTPUT_FILE} に保存されました。" | tee -a "$OUTPUT_FILE"
