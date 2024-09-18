@@ -28,7 +28,7 @@ calculate_iqr() {
     
     q1=${sorted_values[$q1_index]}
     q3=${sorted_values[$q3_index]}
-    iqr=$((q3 - q1))
+    iqr=$(awk "BEGIN {print $q3 - $q1}")
     
     echo $iqr
 }
@@ -47,12 +47,12 @@ remove_outliers() {
     
     local q1=${sorted_values[$((length / 4))]}
     local q3=${sorted_values[$(((3 * length) / 4))]}
-    local lower_bound=$((q1 - 1.5 * iqr))
-    local upper_bound=$((q3 + 1.5 * iqr))
+    local lower_bound=$(awk "BEGIN {print $q1 - 1.5 * $iqr}")
+    local upper_bound=$(awk "BEGIN {print $q3 + 1.5 * $iqr}")
     
     filtered_values=()
     for value in "${sorted_values[@]}"; do
-        if (( value >= lower_bound && value <= upper_bound )); then
+        if (( $(awk "BEGIN {print ($value >= $lower_bound && $value <= $upper_bound)}") )); then
             filtered_values+=("$value")
         fi
     done
@@ -85,7 +85,7 @@ do
     done
     
     filtered_integer_times=($(remove_outliers "${integer_times[@]}"))
-    average_time_integer=$((($(IFS=+; echo "$((${filtered_integer_times[*]}))") / ${#filtered_integer_times[@]})))
+    average_time_integer=$(awk "BEGIN {print int($(IFS=+; echo "$((${filtered_integer_times[*]}))") / ${#filtered_integer_times[@]} + 0.5)}")
     echo "整数計算の時間: ${average_time_integer}ms" | tee -a "$OUTPUT_FILE"
     total_time_integer=$((total_time_integer + average_time_integer))
 
@@ -105,7 +105,7 @@ do
         done
         
         filtered_float_times=($(remove_outliers "${float_times[@]}"))
-        average_time_float=$((($(IFS=+; echo "$((${filtered_float_times[*]}))") / ${#filtered_float_times[@]})))
+        average_time_float=$(awk "BEGIN {print int($(IFS=+; echo "$((${filtered_float_times[*]}))") / ${#filtered_float_times[@]} + 0.5)}")
         echo "浮動小数点計算の時間: ${average_time_float}ms" | tee -a "$OUTPUT_FILE"
         total_time_float=$((total_time_float + average_time_float))
     else
@@ -145,8 +145,8 @@ done
 
 filtered_mem_write_times=($(remove_outliers "${mem_write_times[@]}"))
 filtered_mem_read_times=($(remove_outliers "${mem_read_times[@]}"))
-average_mem_write_time=$((($(IFS=+; echo "$((${filtered_mem_write_times[*]}))") / ${#filtered_mem_write_times[@]})))
-average_mem_read_time=$((($(IFS=+; echo "$((${filtered_mem_read_times[*]}))") / ${#filtered_mem_read_times[@]})))
+average_mem_write_time=$(awk "BEGIN {print int($(IFS=+; echo "$((${filtered_mem_write_times[*]}))") / ${#filtered_mem_write_times[@]} + 0.5)}")
+average_mem_read_time=$(awk "BEGIN {print int($(IFS=+; echo "$((${filtered_mem_read_times[*]}))") / ${#filtered_mem_read_times[@]} + 0.5)}")
 echo "平均メモリ書き込みの時間: ${average_mem_write_time}ms" | tee -a "$OUTPUT_FILE"
 echo "平均メモリ読み取りの時間: ${average_mem_read_time}ms" | tee -a "$OUTPUT_FILE"
 
@@ -177,8 +177,8 @@ done
 
 filtered_disk_write_times=($(remove_outliers "${disk_write_times[@]}"))
 filtered_disk_read_times=($(remove_outliers "${disk_read_times[@]}"))
-average_disk_write_time=$((($(IFS=+; echo "$((${filtered_disk_write_times[*]}))") / ${#filtered_disk_write_times[@]})))
-average_disk_read_time=$((($(IFS=+; echo "$((${filtered_disk_read_times[*]}))") / ${#filtered_disk_read_times[@]})))
+average_disk_write_time=$(awk "BEGIN {print int($(IFS=+; echo "$((${filtered_disk_write_times[*]}))") / ${#filtered_disk_write_times[@]} + 0.5)}")
+average_disk_read_time=$(awk "BEGIN {print int($(IFS=+; echo "$((${filtered_disk_read_times[*]}))") / ${#filtered_disk_read_times[@]} + 0.5)}")
 echo "平均ディスク書き込みの時間: ${average_disk_write_time}ms" | tee -a "$OUTPUT_FILE"
 echo "平均ディスク読み取りの時間: ${average_disk_read_time}ms" | tee -a "$OUTPUT_FILE"
 
