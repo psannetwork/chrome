@@ -102,4 +102,32 @@ do
     total_disk_write_time=$((total_disk_write_time + disk_write_time))
 
     start_time=$(date +%s%N)
-    dd if=/tmp/disk_test of=/dev/null bs=1M count=100 i
+    dd if=/tmp/disk_test of=/dev/null bs=1M count=100 iflag=direct 2>/dev/null
+    end_time=$(date +%s%N)
+    disk_read_time=$(( (end_time - start_time) / 1000000 ))
+    echo "ディスク読み取りの時間: ${disk_read_time}ms" | tee -a "$OUTPUT_FILE"
+    total_disk_read_time=$((total_disk_read_time + disk_read_time))
+
+    rm -f /tmp/disk_test
+done
+
+average_disk_write_time=$((total_disk_write_time / NUM_REPEATS))
+average_disk_read_time=$((total_disk_read_time / NUM_REPEATS))
+echo "平均ディスク書き込みの時間: ${average_disk_write_time}ms" | tee -a "$OUTPUT_FILE"
+echo "平均ディスク読み取りの時間: ${average_disk_read_time}ms" | tee -a "$OUTPUT_FILE"
+
+# 総合得点の算出
+# 各ベンチマークの平均時間を元にスコアを計算
+integer_score=$((1000000 / (average_time_integer + 1)))  # +1 to avoid division by zero
+float_score=$((1000000 / (average_time_float + 1)))
+mem_write_score=$((1000000 / (average_mem_write_time + 1)))
+mem_read_score=$((1000000 / (average_mem_read_time + 1)))
+disk_write_score=$((1000000 / (average_disk_write_time + 1)))
+disk_read_score=$((1000000 / (average_disk_read_time + 1)))
+
+# 平均スコアを算出
+average_score=$(((integer_score + float_score + mem_write_score + mem_read_score + disk_write_score + disk_read_score) / 6))
+
+echo "総合スコア: ${average_score}" | tee -a "$OUTPUT_FILE"
+
+echo "結果が ${OUTPUT_FILE} に保存されました。" | tee -a "$OUTPUT_FILE"
