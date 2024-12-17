@@ -1,5 +1,5 @@
 #!/bin/bash
-
+clear
 function error_exit {
     echo "$1" >&2
     exit 1
