@@ -1,4 +1,4 @@
-et -e
+set -e
 
 # Define variables
 ALPINE_ROOT="alpine-root"
@@ -23,6 +23,10 @@ else
     mkdir -p "${ALPINE_ROOT}"
     echo "Extracting ${ALPINE_TARBALL} into ${ALPINE_ROOT}..."
     tar -xzf "${ALPINE_TARBALL}" -C "${ALPINE_ROOT}"
+
+    # Configure DNS
+    echo "Setting up DNS to 8.8.8.8..."
+    echo "nameserver 8.8.8.8" > "${ALPINE_ROOT}/etc/resolv.conf"
 fi
 
 # Start the Alpine environment using proot
