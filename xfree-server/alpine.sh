@@ -42,7 +42,23 @@ else
     echo "nameserver 8.8.8.8" > "${ALPINE_ROOT}/etc/resolv.conf"
 fi
 
+# Check if a user is set up
+if [ ! -f "${ALPINE_ROOT}/etc/passwd" ] || ! grep -q "^[^:]*:[^:]*:[0-9]\+:" "${ALPINE_ROOT}/etc/passwd"; then
+    echo "No user found in Alpine. Creating a new user..."
+    read -p "Enter username: " ALPINE_USER
+    read -s -p "Enter password: " ALPINE_PASS
+    echo
+
+    # Create user in chroot environment
+    mkdir -p "${ALPINE_ROOT}/home/${ALPINE_USER}"
+    echo "${ALPINE_USER}:$(echo "${ALPINE_PASS}" | openssl passwd -6 -stdin):1000:1000:User,,,:/home/${ALPINE_USER}:/bin/sh" >> "${ALPINE_ROOT}/etc/passwd"
+    echo "${ALPINE_USER}:x:1000:1000::/home/${ALPINE_USER}:/bin/sh" >> "${ALPINE_ROOT}/etc/passwd"
+    echo "${ALPINE_USER}:!:19117:0:99999:7:::" >> "${ALPINE_ROOT}/etc/shadow"
+    echo "${ALPINE_USER} ALL=(ALL) NOPASSWD: ALL" >> "${ALPINE_ROOT}/etc/sudoers"
+
+    echo "User ${ALPINE_USER} created successfully!"
+fi
+
 # Start the Alpine environment using proot
 echo "Starting Alpine environment using proot..."
-# Set working directory to / and initialize PATH for basic commands
 ./proot --rootfs="${ALPINE_ROOT}" -w / -b /proc:/proc -b /sys:/sys -b /dev:/dev env PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/sh
