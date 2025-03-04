@@ -5,6 +5,20 @@ ALPINE_ROOT="alpine-root"
 ALPINE_TARBALL="alpine-minirootfs-3.21.3-x86_64.tar.gz"
 ALPINE_URL="http://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/${ALPINE_TARBALL}"
 
+# Function to download a file using wget or curl
+download_file() {
+    if command -v wget > /dev/null 2>&1; then
+        echo "Using wget to download ${ALPINE_TARBALL}..."
+        wget "${ALPINE_URL}" -O "${ALPINE_TARBALL}"
+    elif command -v curl > /dev/null 2>&1; then
+        echo "wget not found, using curl to download ${ALPINE_TARBALL}..."
+        curl -L "${ALPINE_URL}" -o "${ALPINE_TARBALL}"
+    else
+        echo "Error: Neither wget nor curl is installed. Please install one and try again."
+        exit 1
+    fi
+}
+
 # Check if the Alpine environment directory exists
 if [ -d "${ALPINE_ROOT}" ]; then
     echo "Alpine environment exists. Entering the environment..."
@@ -13,10 +27,9 @@ else
 
     # Download the Alpine tarball if it hasn't been downloaded
     if [ ! -f "${ALPINE_TARBALL}" ]; then
-         echo "Downloading ${ALPINE_TARBALL}..."
-         wget "${ALPINE_URL}" -O "${ALPINE_TARBALL}"
+        download_file
     else
-         echo "${ALPINE_TARBALL} already exists. Skipping download."
+        echo "${ALPINE_TARBALL} already exists. Skipping download."
     fi
 
     # Create the Alpine root directory and extract the tarball
