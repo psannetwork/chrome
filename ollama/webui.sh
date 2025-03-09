@@ -20,13 +20,11 @@ echo 'eval "$(pyenv init --path)"' >> ~/.bashrc
 echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 source ~/.bashrc
 
-# Python 3.11 をインストール
-pyenv install 3.11.0
-pyenv global 3.11.0
+conda create -n open-webui python=3.11
 
+conda activate open-webui
 
 pip install open-webui
 
-open-webui serve &> ollama.log &
-ps aux | grep open-webui
-disown
+open-webui serve
+
