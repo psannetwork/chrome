@@ -4,6 +4,14 @@ apk add --no-cache --virtual .build-deps gcc make libssl-dev zlib-dev \
     libncurses5-dev libncursesw5-dev xz-utils tk-dev \
     libffi-dev liblzma-dev python3-dev git
 
+
+bash --noprofile --norc
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init --path)"' >> ~/.bashrc
+echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
+
 curl https://pyenv.run | bash
 
 # シェルの設定を更新 (bash の場合)
