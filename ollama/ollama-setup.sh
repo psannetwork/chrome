@@ -5,6 +5,10 @@ echo 'export PATH=$PATH:~/ollama' >> ~/.bashrc
 
 
 
+nohup ollama serve &> ollama.log &
+ps aux | grep ollama
+disown
+
 
 
 #!/bin/bash
