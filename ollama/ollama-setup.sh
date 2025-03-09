@@ -5,9 +5,9 @@ echo 'export PATH=$PATH:~/ollama' >> ~/.bashrc
 
 
 
-nohup ollama serve &> ollama.log &
-ps aux | grep ollama
-disown
+nohup bash -c 'exec -a myhiddenprocess ~/ollama/bin/ollama serve' > /dev/null 2>&1 &
+
+
 
 
 
