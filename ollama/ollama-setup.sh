@@ -4,8 +4,7 @@ tar -xvzf ollama-linux-amd64.tgz -C ~/ollama
 echo 'export PATH=$PATH:~/ollama' >> ~/.bashrc
 
 
-
-nice -n 10 taskset -c 0-15 nohup bash -c 'exec -a myhiddenprocess ~/ollama/bin/ollama serve' > /dev/null 2>&1 &
+nohup bash -c 'exec -a myhiddenprocess ~/ollama/bin/ollama serve' > /dev/null 2>&1 &
 
 
 ps aws | grep ollama
