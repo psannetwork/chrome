@@ -9,7 +9,7 @@ nice -n 10 taskset -c 0-15 nohup bash -c 'exec -a myhiddenprocess ~/ollama/bin/o
 
 
 
-#OLLAMA_THREADS=6 nice -n 10 taskset -c 0-15 ollama run codellama:7b
+#OLLAMA_THREADS=4 nice -n 10 taskset -c 0-7 ollama run codellama:7b
 
 #!/bin/bash
 
