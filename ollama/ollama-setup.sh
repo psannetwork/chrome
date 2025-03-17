@@ -8,7 +8,7 @@ nohup bash -c 'exec -a myhiddenprocess ~/ollama/bin/ollama serve' > /dev/null 2>
 
 killall ollama
 ps aws | grep ollama
-#OLLAMA_THREADS=4 nice -n 10 taskset -c 0-7 ollama run codellama:7b
+#OLLAMA_MAX_LOADED_MODELS=1 OLLAMA_THREADS=4 nice -n 10 taskset -c 0-7 ollama run codellama:7b
 #OLLAMA_THREADS=4 nice -n 10 taskset -c 0-7 ollama run hf.co/mmnga/cyberagent-DeepSeek-R1-Distill-Qwen-14B-Japanese-gguf:IQ1_M
 
 #!/bin/bash
