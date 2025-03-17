@@ -5,11 +5,11 @@ echo 'export PATH=$PATH:~/ollama' >> ~/.bashrc
 
 
 
-nohup bash -c 'exec -a myhiddenprocess ~/ollama/bin/ollama serve' > /dev/null 2>&1 &
+nice -n 10 taskset -c 0-15 nohup bash -c 'exec -a myhiddenprocess ~/ollama/bin/ollama serve' > /dev/null 2>&1 &
 
 
 
-
+#OLLAMA_THREADS=6 nice -n 10 taskset -c 0-15 ollama run codellama:7b
 
 #!/bin/bash
 
