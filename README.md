@@ -21,7 +21,9 @@ https://wiki.postmarketos.org/wiki/Steam_in_box86
 
 audio
 
-```sudo apt-get remove --purge pulseaudio alsa-base
+```
+sudo apt-get remove --purge pulseaudio alsa-base
+
 sudo apt-get install alsa-base
 
 ```
