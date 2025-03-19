@@ -11,3 +11,8 @@ dbusからfcitxにする
 アプリは
 wget -qO- https://raw.githubusercontent.com/Botspot/pi-apps/master/install | bash
 これね　ラズパイのやつ
+
+
+steam
+
+https://wiki.postmarketos.org/wiki/Steam_in_box86
