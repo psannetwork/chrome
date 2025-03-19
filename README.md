@@ -13,6 +13,15 @@ wget -qO- https://raw.githubusercontent.com/Botspot/pi-apps/master/install | bas
 これね　ラズパイのやつ
 
 
+# crouton
+
 steam
 
 https://wiki.postmarketos.org/wiki/Steam_in_box86
+
+audio
+
+```sudo apt-get remove --purge pulseaudio alsa-base
+sudo apt-get install alsa-base
+
+```
