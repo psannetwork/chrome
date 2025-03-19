@@ -26,4 +26,12 @@ sudo apt-get remove --purge pulseaudio alsa-base -y
 
 sudo apt-get install alsa-base -y
 
+
+sudo apt install --reinstall alsa-base alsa-utils
+
+sudo alsa force-reload
+
+sudo modprobe snd_soc_mt8186
+sudo modprobe snd_sof
+
 ```
