@@ -77,7 +77,6 @@ wss.on('connection', (ws) => {
       const cancelTokenSource = axios.CancelToken.source();
       currentCancelToken = cancelTokenSource;
 
-      // OLLAMA_API にリクエストを投げ、responseType:'stream' でストリーミング取得
       const response = await axios.post(OLLAMA_API, {
         model: "phi4-mini:latest",
         prompt: text,
@@ -92,15 +91,17 @@ wss.on('connection', (ws) => {
         try {
           const data = JSON.parse(chunk.toString());
           if (data.response) {
-            // サーバー側でコードブロック等のマークアップはそのまま送信する
             ws.send(data.response);
+          }
+          // finish フラグが true なら生成完了とみなす
+          if (data.finish === true) {
+            currentCancelToken = null;
           }
         } catch (e) {
           console.error('データのパースエラー:', e.message);
         }
       });
 
-      // 生成完了時（"end" イベント）は「生成が完了しました」の通知は送らず、ただリクエストの終了として currentCancelToken をクリア
       response.data.on('end', () => {
         currentCancelToken = null;
       });
