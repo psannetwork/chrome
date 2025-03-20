@@ -25,7 +25,7 @@ app.get('/generate', async (req, res) => {
 
   try {
     const response = await axios.post(OLLAMA_API, {
-      model: "phi4-mini:latest",
+      model: "phi",
       prompt: text,
       options: { temperature: 0.7 }
     }, {
@@ -78,7 +78,7 @@ wss.on('connection', (ws) => {
       currentCancelToken = cancelTokenSource;
 
       const response = await axios.post(OLLAMA_API, {
-        model: "phi4-mini:latest",
+        model: "phi",
         prompt: text,
         options: { temperature: 0.7 }
       }, {
