@@ -60,7 +60,7 @@ wss.on('connection', (ws) => {
       if (currentCancelToken) {
         currentCancelToken.cancel('ユーザーにより生成停止要求が出されました');
         currentCancelToken = null;
-        ws.send(JSON.stringify({ message: '生成を停止しました。' }));
+        ws.send(JSON.stringify({ message: '生成を停止しました。', finish: true }));
       } else {
         ws.send(JSON.stringify({ message: '生成は開始されていません。' }));
       }
@@ -93,9 +93,10 @@ wss.on('connection', (ws) => {
           if (data.response) {
             ws.send(data.response);
           }
-          // finish フラグが true なら生成完了とみなす
+          // finish フラグが true なら生成完了とみなし、finish 通知を送信
           if (data.finish === true) {
             currentCancelToken = null;
+            ws.send(JSON.stringify({ finish: true }));
           }
         } catch (e) {
           console.error('データのパースエラー:', e.message);
