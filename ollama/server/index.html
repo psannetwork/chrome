@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GPT対話サイト</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f0f2f5; }
+    #chat-box {
+      max-width: 600px; margin: 0 auto; background: #fff; padding: 20px;
+      border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      height: 400px; overflow-y: auto;
+    }
+    .message { margin: 5px 0; padding: 8px 12px; border-radius: 12px; }
+    .user { background: #d1e7fd; text-align: right; }
+    .bot { background: #e9ecef; text-align: left; white-space: pre-wrap; }
+    .code { background: #272822; color: #f8f8f2; font-family: monospace; padding: 10px; border-radius: 4px; }
+    .code-block { position: relative; margin: 10px 0; }
+    .copy-btn {
+      position: absolute; top: 5px; right: 5px;
+      padding: 2px 6px; font-size: 12px; cursor: pointer;
+      background-color: #4CAF50; color: #fff; border: none; border-radius: 4px;
+    }
+    #input-box {
+      display: flex; gap: 10px; max-width: 600px; margin: 20px auto 0;
+    }
+    #input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+    button.action-btn {
+      padding: 10px 20px; background-color: #4CAF50; color: #fff;
+      border: none; border-radius: 4px; cursor: pointer;
+    }
+    button.action-btn:disabled {
+      background-color: #aaa; cursor: not-allowed;
+    }
+    button.toggle-btn {
+      padding: 10px 20px; background-color: #007BFF; color: #fff;
+      border: none; border-radius: 4px; cursor: pointer;
+    }
+    button.toggle-btn.active {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div id="chat-box"></div>
+  <div id="input-box">
+    <input type="text" id="input" placeholder="メッセージを入力...">
+    <button id="send-btn" class="action-btn">送信</button>
+    <button id="infer-toggle" class="toggle-btn">推論OFF</button>
+  </div>
+
+  <script>
+    // マークアップ変換関数（シンプルなMarkdown風）
+    function formatMessage(text) {
+      // エスケープ処理
+      text = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      // トリプルバッククォートで始まるコードブロック
+      // オプションの言語指定（例 ```javascript）は無視して、コード部分のみ抽出
+      text = text.replace(/```(?:[a-zA-Z0-9]+)?\n([\s\S]*?)(```|$)/g, (match, p1) => {
+        let codeContent = p1.trim();
+        let preBlock = `<pre class="code"><code>${codeContent}</code></pre>`;
+        return `<div class="code-block">${preBlock}<button class="copy-btn">Copy</button></div>`;
+      });
+      // インラインコード（` で囲む）
+      text = text.replace(/`([^`\n]+)`/g, (match, p1) => {
+        return `<code>${p1.trim()}</code>`;
+      });
+      // 行頭の # を見出しに変換
+      text = text.replace(/^# (.+)$/gm, '<h2>$1</h2>');
+      return text;
+    }
+
+    // コピー用ボタンのイベント設定
+    function attachCopyButtons() {
+      document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.onclick = function() {
+          const codeElem = this.parentElement.querySelector('pre.code code');
+          if (codeElem) {
+            navigator.clipboard.writeText(codeElem.innerText);
+            this.textContent = "Copied!";
+            setTimeout(() => { this.textContent = "Copy"; }, 2000);
+          }
+        };
+      });
+    }
+
+    // WebSocket 接続（サーバーURL を wss://ollama.psannetwork.net に変更）
+    const ws = new WebSocket('wss://ollama.psannetwork.net');
+    const chatBox = document.getElementById('chat-box');
+    const inputField = document.getElementById('input');
+    const sendBtn = document.getElementById('send-btn');
+    const inferToggle = document.getElementById('infer-toggle');
+
+    let pendingResponse = "";
+    let pendingMessageElement = null;
+    let generating = false;
+    // モード管理：normal（通常送信）、inference（推論中）、answer（推論後の回答生成中）
+    let currentMode = 'normal';
+
+    // 推論モード（ON/OFF）
+    let inferenceMode = false;
+
+    // メッセージ追加用関数
+    function addMessage(text, sender, isHTML = false) {
+      const message = document.createElement('div');
+      message.className = `message ${sender}`;
+      if (isHTML) {
+        message.innerHTML = text;
+      } else {
+        message.textContent = text;
+      }
+      chatBox.appendChild(message);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // 生成中の状態管理
+    function setGenerating(state) {
+      generating = state;
+      inputField.disabled = state;
+      if (state) {
+        sendBtn.textContent = '生成停止';
+        inferToggle.disabled = true;
+      } else {
+        sendBtn.textContent = '送信';
+        inferToggle.disabled = false;
+      }
+    }
+
+    ws.onopen = () => {
+      addMessage("接続しました。最初のメッセージを送ってください。", "bot");
+    };
+
+    ws.onmessage = (event) => {
+      let data = event.data;
+      try {
+        const jsonData = JSON.parse(data);
+        if (jsonData.error) {
+          addMessage("Error: " + jsonData.error, "bot");
+          setGenerating(false);
+          return;
+        }
+        // 「生成停止しました」などのメッセージは表示するが、finish通知（生成完了）は表示しない
+        if (jsonData.message && jsonData.message !== '生成が完了しました。') {
+          addMessage(jsonData.message, "bot");
+          // 推論モードの場合、推論結果が届いたら自動的に回答生成をリクエスト
+          if (currentMode === 'inference') {
+            // 推論結果をプロンプトに付加して回答生成リクエストを送信
+            const inferenceResult = pendingResponse;
+            pendingResponse = "";
+            pendingMessageElement = null;
+            currentMode = 'answer';
+            const answerPrompt = "【回答生成】\n推論結果:\n" + inferenceResult;
+            ws.send(answerPrompt);
+            return;
+          }
+          setGenerating(false);
+          return;
+        }
+      } catch (e) {
+        // JSON でなければ通常テキストとして扱う
+      }
+
+      // ストリーミング受信中
+      pendingResponse += data;
+      if (!pendingMessageElement) {
+        pendingMessageElement = document.createElement('div');
+        pendingMessageElement.className = "message bot";
+        chatBox.appendChild(pendingMessageElement);
+      }
+      pendingMessageElement.innerHTML = formatMessage(pendingResponse);
+      chatBox.scrollTop = chatBox.scrollHeight;
+      attachCopyButtons();
+    };
+
+    ws.onclose = () => {
+      addMessage("接続が切断されました。", "bot");
+      setGenerating(false);
+    };
+
+    // 送信ボタンのクリック：通常送信または生成停止
+    sendBtn.addEventListener('click', () => {
+      if (generating) {
+        ws.send("STOP");
+        return;
+      }
+      const text = inputField.value.trim();
+      if (!text) return;
+      addMessage(text, "user");
+      setGenerating(true);
+      pendingResponse = "";
+      pendingMessageElement = null;
+      currentMode = 'normal';
+      ws.send(text);
+      inputField.value = "";
+    });
+
+    // 推論モードのON/OFF切替（推論ONなら、送信時に【推論】プレフィックスを付与）
+    inferToggle.addEventListener('click', () => {
+      inferenceMode = !inferenceMode;
+      inferToggle.textContent = inferenceMode ? '推論ON' : '推論OFF';
+      // 推論モード切替時は、ユーザー入力内容がそのまま推論対象となるので送信時に処理する
+    });
+
+    // Enterキーで送信（生成中は無効）
+    inputField.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !generating) {
+        // inferenceMode がオンなら、送信メッセージに【推論】プレフィックスを付与して送信
+        let text = inputField.value.trim();
+        if (!text) return;
+        addMessage(text, "user");
+        setGenerating(true);
+        pendingResponse = "";
+        pendingMessageElement = null;
+        if (inferenceMode) {
+          currentMode = 'inference';
+          text = "【推論】 " + text;
+        } else {
+          currentMode = 'normal';
+        }
+        ws.send(text);
+        inputField.value = "";
+      }
+    });
+  </script>
+</body>
+</html>
