@@ -61,4 +61,4 @@ fi
 
 # Start the Ubuntu environment using proot
 echo "Starting Ubuntu environment using proot..."
-./proot --rootfs="${UBUNTU_ROOT}" -w / -b /proc:/proc -b /sys:/sys -b /dev:/dev env PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash
+./proot -0 --rootfs="${UBUNTU_ROOT}" -w / -b /proc:/proc -b /sys:/sys -b /dev:/dev env PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash
