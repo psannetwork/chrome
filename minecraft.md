@@ -9,6 +9,6 @@ https://geysermc.org/download
 
 cloudflareは、udp使えんから、転送する
 
- socat TCP-LISTEN:19133,reuseaddr,fork UDP:127.0.0.1:19132
+ socat TCP-LISTEN:19133,reuseaddr,fork UDP:127.0.0.1:19132 むりだった
 
  tcpに
