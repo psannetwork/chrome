@@ -38,3 +38,8 @@ sudo modprobe snd_sof
 
 
 $max ∑_{i∈I} w_i ⋅ x_i$
+$∑_{i∈I} r_i ⋅ x_i ≤ T$
+$min -∑_{i∈I} w_i ⋅ x_i + P ⋅ (∑_{i∈I} r_i ⋅ x_i - T)^2$
+$max ∑_{j∈J} f_j ⋅ x_j$
+$∑_{j∈J} c_j ⋅ x_j ≤ B$
+$min -∑_{j∈J} f_j ⋅ x_j + P ⋅ (∑_{j∈J} c_j ⋅ x_j - B)^2$
