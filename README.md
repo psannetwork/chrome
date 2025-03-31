@@ -35,3 +35,6 @@ sudo modprobe snd_soc_mt8186
 sudo modprobe snd_sof
 
 ```
+
+
+$max ∑_{i∈I} w_i ⋅ x_i$
