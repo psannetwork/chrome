@@ -48,3 +48,6 @@ $max ∑_{j∈J} f_j ⋅ x_j$
 $∑_{j∈J} c_j ⋅ x_j ≤ B$
 
 $min -∑_{j∈J} f_j ⋅ x_j + P ⋅ (∑_{j∈J} c_j ⋅ x_j - B)^2$
+
+
+$minimize−i=1∑2​j∈{S,L}∑​wij​xij​+Pi=1∑2​​j∈{S,L}∑​cij​xij​−Ci​​2$
