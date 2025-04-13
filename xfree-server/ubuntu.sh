@@ -3,8 +3,7 @@ set -e
 # Define variables
 UBUNTU_ROOT="ubuntu-root"
 UBUNTU_TARBALL="focal-base-amd64.tar.gz"
-UBUNTU_URL="http://cdimage.ubuntu.com/ubuntu-base/focal/daily/20250322/${UBUNTU_TARBALL}"
-
+UBUNTU_URL="https://cdimage.ubuntu.com/ubuntu-base/focal/daily/20250411/${UBUNTU_TARBALL}"
 # Function to download a file using wget or curl
 download_file() {
     if command -v wget > /dev/null 2>&1; then
