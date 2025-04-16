@@ -13,3 +13,5 @@ chmod 700 /var/lib/tor/hidden_service
 
 # Torをバックグラウンドで実行
 nohup tor > /var/log/tor.log 2>&1 &
+
+cat /var/lib/tor/hidden_service/hostname
