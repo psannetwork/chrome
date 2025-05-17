@@ -2,7 +2,7 @@
 
 set -e
 
-IMG="chromeos_16033.58.0_staryu_recovery_stable-channel_mp-v6.bin"
+IMG="chromeos_16181.61.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin"
 MMC_BASE="/dev/mmcblk0"
 
 # 必須コマンドチェック
