@@ -51,3 +51,12 @@ $min -∑_{j∈J} f_j ⋅ x_j + P ⋅ (∑_{j∈J} c_j ⋅ x_j - B)^2$
 
 
 $minimize−i=1∑2​j∈{S,L}∑​wij​xij​+Pi=1∑2​​j∈{S,L}∑​cij​xij​−Ci​​2$
+
+
+
+# Chromium
+
+/mnt/host/source/src/third_party/chromiumos-overlay/media-libs/mesa/mesa-21.3.9_p20230109-r9.ebuild
+
+src\third_party\wpa_supplicant\wpa_supplicant
+
