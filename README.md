@@ -63,6 +63,10 @@ src\third_party\wpa_supplicant\wpa_supplicant
 ```
 repo init -u https://chromium.googlesource.com/chromiumos/manifest.git  --repo-url https://chromium.googlesource.com/external/repo.git  --manifest-name=default.xml --manifest-branch=release-R135-16209.B
 
+repo sync -j$(nproc)
+
+setup_board --board=staryu
+
 # ebuild ファイルを編集
 nano /mnt/host/source/src/third_party/chromiumos-overlay/media-libs/mesa/mesa-21.3.9_p20230109-r9.ebuild
 
