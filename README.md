@@ -92,4 +92,10 @@ cros_sdk
 sudo emerge --ask x11-libs/libdrm media-libs/mesa x11-libs/libX11
 # 必要なツールをインストール
 sudo emerge --ask sys-devel/bison sys-devel/flex dev-libs/expat
+
+# 全体ビルドを再開
+cros build-packages --board=staryu
+
+# Staryu 向けの開発用イメージをビルド
+cros build-image --board=staryu dev
 ```
