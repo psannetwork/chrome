@@ -61,6 +61,12 @@ $minimize−i=1∑2​j∈{S,L}∑​wij​xij​+Pi=1∑2​​j∈{S,L}∑​c
 src\third_party\wpa_supplicant\wpa_supplicant
 
 ```
+git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git 
+export PATH="$PATH:`pwd`/depot_tools"
+
+echo 'export PATH="$PATH:$HOME/depot_tools"' >> ~/.bashrc
+source ~/.bashrc
+
 repo init -u https://chromium.googlesource.com/chromiumos/manifest.git  --repo-url https://chromium.googlesource.com/external/repo.git  --manifest-name=default.xml --manifest-branch=release-R135-16209.B
 
 repo sync -j$(nproc)
