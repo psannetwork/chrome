@@ -6,7 +6,7 @@ set -euo pipefail
 # ------------------------------
 UBUNTU_ROOT="ubuntu-root"
 UBUNTU_TARBALL="focal-base-amd64.tar.gz"
-UBUNTU_URL="https://cdimage.ubuntu.com/ubuntu-base/focal/daily/20250411/${UBUNTU_TARBALL}"
+UBUNTU_URL="https://cdimage.ubuntu.com/ubuntu-base/focal/daily/20250925/${UBUNTU_TARBALL}"
 PROOT_BIN="./proot"
 PROOT_URL="https://proot.gitlab.io/proot/bin/proot"
 
