@@ -16,25 +16,23 @@ PROOT_URL="https://proot.gitlab.io/proot/bin/proot"
 download_file() {
     local url=$1
     local output=$2
-    local retries=3
-    local count=0
-    while [ $count -lt $retries ]; do
-        if command -v wget > /dev/null 2>&1; then
-            echo "Downloading ${output} using wget..."
-            wget -O "${output}" "${url}" && return 0
-        elif command -v curl > /dev/null 2>&1; then
-            echo "Downloading ${output} using curl..."
-            curl -L -o "${output}" "${url}" && return 0
-        else
-            echo "Error: Neither wget nor curl is installed."
-            exit 1
-        fi
-        count=$((count+1))
-        echo "Download failed. Retrying ($count/3)..."
-        sleep 2
-    done
-    echo "Failed to download ${output} after 3 attempts."
-    exit 1
+    echo "Downloading ${output}..."
+    if command -v wget > /dev/null 2>&1; then
+        # wget で途中から再開可能
+        wget -c -O "${output}" "${url}"
+    elif command -v curl > /dev/null 2>&1; then
+        # curl で途中から再開
+        curl -C - -L -o "${output}" "${url}"
+    else
+        echo "Error: Neither wget nor curl is installed."
+        exit 1
+    fi
+
+    # ダウンロードが壊れていないか確認
+    if ! gzip -t "${output}" >/dev/null 2>&1; then
+        echo "Error: Downloaded file ${output} is corrupted. Please try again."
+        exit 1
+    fi
 }
 
 # ------------------------------
@@ -58,7 +56,10 @@ else
 
     mkdir -p "${UBUNTU_ROOT}"
     echo "Extracting ${UBUNTU_TARBALL}..."
-    tar -xzf "${UBUNTU_TARBALL}" -C "${UBUNTU_ROOT}"
+    if ! tar -xzf "${UBUNTU_TARBALL}" -C "${UBUNTU_ROOT}"; then
+        echo "Error: Failed to extract ${UBUNTU_TARBALL}."
+        exit 1
+    fi
 
     echo "Setting DNS to 8.8.8.8..."
     echo "nameserver 8.8.8.8" > "${UBUNTU_ROOT}/etc/resolv.conf"
