@@ -18,10 +18,8 @@ download_file() {
     local output=$2
     echo "Downloading ${output}..."
     if command -v wget > /dev/null 2>&1; then
-        # wget で途中から再開可能
         wget -c -O "${output}" "${url}"
     elif command -v curl > /dev/null 2>&1; then
-        # curl で途中から再開
         curl -C - -L -o "${output}" "${url}"
     else
         echo "Error: Neither wget nor curl is installed."
@@ -71,24 +69,22 @@ fi
 if ! grep -q "1000:" "${UBUNTU_ROOT}/etc/passwd"; then
     echo "Creating new user in Ubuntu..."
     read -p "Enter username: " UBUNTU_USER
-    read -s -p "Enter password: " UBUNTU_PASS
-    echo
 
     mkdir -p "${UBUNTU_ROOT}/home/${UBUNTU_USER}"
 
-    HASHED_PASS=$(openssl passwd -6 <<<"${UBUNTU_PASS}")
-
+    # shadow のパスワードは無効化（後で proot 内で passwd で設定）
     cat <<EOF >> "${UBUNTU_ROOT}/etc/passwd"
 ${UBUNTU_USER}:x:1000:1000::/home/${UBUNTU_USER}:/bin/bash
 EOF
 
     cat <<EOF >> "${UBUNTU_ROOT}/etc/shadow"
-${UBUNTU_USER}:${HASHED_PASS}:0:0:99999:7:::
+${UBUNTU_USER}:*:0:0:99999:7:::
 EOF
 
     echo "${UBUNTU_USER} ALL=(ALL) NOPASSWD: ALL" >> "${UBUNTU_ROOT}/etc/sudoers"
 
     echo "User ${UBUNTU_USER} created successfully!"
+    echo "Note: Password is disabled. Please run 'passwd ${UBUNTU_USER}' inside Ubuntu to set a password."
 else
     echo "User already exists. Skipping creation."
 fi
