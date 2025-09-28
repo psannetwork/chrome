@@ -8,31 +8,44 @@ UBUNTU_ROOT="ubuntu-root"
 UBUNTU_TARBALL="focal-base-amd64.tar.gz"
 UBUNTU_URL="https://cdimage.ubuntu.com/ubuntu-base/focal/daily/20250411/${UBUNTU_TARBALL}"
 PROOT_BIN="./proot"
+PROOT_URL="https://proot.gitlab.io/proot/bin/proot"
 
 # ------------------------------
 # ファイルダウンロード関数
 # ------------------------------
 download_file() {
+    local url=$1
+    local output=$2
     local retries=3
     local count=0
     while [ $count -lt $retries ]; do
         if command -v wget > /dev/null 2>&1; then
-            echo "Downloading ${UBUNTU_TARBALL} using wget..."
-            wget -O "${UBUNTU_TARBALL}" "${UBUNTU_URL}" && return 0
+            echo "Downloading ${output} using wget..."
+            wget -O "${output}" "${url}" && return 0
         elif command -v curl > /dev/null 2>&1; then
-            echo "Downloading ${UBUNTU_TARBALL} using curl..."
-            curl -L -o "${UBUNTU_TARBALL}" "${UBUNTU_URL}" && return 0
+            echo "Downloading ${output} using curl..."
+            curl -L -o "${output}" "${url}" && return 0
         else
             echo "Error: Neither wget nor curl is installed."
             exit 1
         fi
         count=$((count+1))
-        echo "Download failed. Retrying ($count/$retries)..."
+        echo "Download failed. Retrying ($count/3)..."
         sleep 2
     done
-    echo "Failed to download ${UBUNTU_TARBALL} after ${retries} attempts."
+    echo "Failed to download ${output} after 3 attempts."
     exit 1
 }
+
+# ------------------------------
+# proot バイナリ確認・ダウンロード
+# ------------------------------
+if [ ! -x "${PROOT_BIN}" ]; then
+    echo "proot binary not found. Downloading..."
+    download_file "${PROOT_URL}" "${PROOT_BIN}"
+    chmod +x "${PROOT_BIN}"
+    echo "proot downloaded and made executable."
+fi
 
 # ------------------------------
 # Ubuntu 環境作成
@@ -41,22 +54,14 @@ if [ -d "${UBUNTU_ROOT}" ]; then
     echo "Ubuntu environment exists. Skipping creation."
 else
     echo "Ubuntu environment not found. Creating..."
-
-    [ -f "${UBUNTU_TARBALL}" ] || download_file
+    [ -f "${UBUNTU_TARBALL}" ] || download_file "${UBUNTU_URL}" "${UBUNTU_TARBALL}"
 
     mkdir -p "${UBUNTU_ROOT}"
     echo "Extracting ${UBUNTU_TARBALL}..."
-    if ! tar -xzf "${UBUNTU_TARBALL}" -C "${UBUNTU_ROOT}"; then
-        echo "Error: Failed to extract ${UBUNTU_TARBALL}."
-        exit 1
-    fi
+    tar -xzf "${UBUNTU_TARBALL}" -C "${UBUNTU_ROOT}"
 
-    # DNS 設定
     echo "Setting DNS to 8.8.8.8..."
-    if ! echo "nameserver 8.8.8.8" > "${UBUNTU_ROOT}/etc/resolv.conf"; then
-        echo "Error: Failed to set DNS."
-        exit 1
-    fi
+    echo "nameserver 8.8.8.8" > "${UBUNTU_ROOT}/etc/resolv.conf"
 fi
 
 # ------------------------------
@@ -85,14 +90,6 @@ EOF
     echo "User ${UBUNTU_USER} created successfully!"
 else
     echo "User already exists. Skipping creation."
-fi
-
-# ------------------------------
-# proot 実行前チェック
-# ------------------------------
-if [ ! -x "${PROOT_BIN}" ]; then
-    echo "Error: proot binary not found or not executable at ${PROOT_BIN}."
-    exit 1
 fi
 
 # ------------------------------
