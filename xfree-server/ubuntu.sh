@@ -1,63 +1,108 @@
-set -e
+#!/bin/bash
+set -euo pipefail
 
-# Define variables
+# ------------------------------
+# 変数定義
+# ------------------------------
 UBUNTU_ROOT="ubuntu-root"
 UBUNTU_TARBALL="focal-base-amd64.tar.gz"
 UBUNTU_URL="https://cdimage.ubuntu.com/ubuntu-base/focal/daily/20250411/${UBUNTU_TARBALL}"
-# Function to download a file using wget or curl
+PROOT_BIN="./proot"
+
+# ------------------------------
+# ファイルダウンロード関数
+# ------------------------------
 download_file() {
-    if command -v wget > /dev/null 2>&1; then
-        echo "Using wget to download ${UBUNTU_TARBALL}..."
-        wget "${UBUNTU_URL}" -O "${UBUNTU_TARBALL}"
-    elif command -v curl > /dev/null 2>&1; then
-        echo "wget not found, using curl to download ${UBUNTU_TARBALL}..."
-        curl -L "${UBUNTU_URL}" -o "${UBUNTU_TARBALL}"
-    else
-        echo "Error: Neither wget nor curl is installed. Please install one and try again."
-        exit 1
-    fi
+    local retries=3
+    local count=0
+    while [ $count -lt $retries ]; do
+        if command -v wget > /dev/null 2>&1; then
+            echo "Downloading ${UBUNTU_TARBALL} using wget..."
+            wget -O "${UBUNTU_TARBALL}" "${UBUNTU_URL}" && return 0
+        elif command -v curl > /dev/null 2>&1; then
+            echo "Downloading ${UBUNTU_TARBALL} using curl..."
+            curl -L -o "${UBUNTU_TARBALL}" "${UBUNTU_URL}" && return 0
+        else
+            echo "Error: Neither wget nor curl is installed."
+            exit 1
+        fi
+        count=$((count+1))
+        echo "Download failed. Retrying ($count/$retries)..."
+        sleep 2
+    done
+    echo "Failed to download ${UBUNTU_TARBALL} after ${retries} attempts."
+    exit 1
 }
 
-# Check if the Ubuntu environment directory exists
+# ------------------------------
+# Ubuntu 環境作成
+# ------------------------------
 if [ -d "${UBUNTU_ROOT}" ]; then
-    echo "Ubuntu environment exists. Entering the environment..."
+    echo "Ubuntu environment exists. Skipping creation."
 else
-    echo "Ubuntu environment not found. Creating it now..."
+    echo "Ubuntu environment not found. Creating..."
 
-    # Download the Ubuntu tarball if it hasn't been downloaded
-    if [ ! -f "${UBUNTU_TARBALL}" ]; then
-        download_file
-    else
-        echo "${UBUNTU_TARBALL} already exists. Skipping download."
+    [ -f "${UBUNTU_TARBALL}" ] || download_file
+
+    mkdir -p "${UBUNTU_ROOT}"
+    echo "Extracting ${UBUNTU_TARBALL}..."
+    if ! tar -xzf "${UBUNTU_TARBALL}" -C "${UBUNTU_ROOT}"; then
+        echo "Error: Failed to extract ${UBUNTU_TARBALL}."
+        exit 1
     fi
 
-    # Create the Ubuntu root directory and extract the tarball
-    mkdir -p "${UBUNTU_ROOT}"
-    echo "Extracting ${UBUNTU_TARBALL} into ${UBUNTU_ROOT}..."
-    tar -xzf "${UBUNTU_TARBALL}" -C "${UBUNTU_ROOT}"
-
-    # Configure DNS
-    echo "Setting up DNS to 8.8.8.8..."
-    echo "nameserver 8.8.8.8" > "${UBUNTU_ROOT}/etc/resolv.conf"
+    # DNS 設定
+    echo "Setting DNS to 8.8.8.8..."
+    if ! echo "nameserver 8.8.8.8" > "${UBUNTU_ROOT}/etc/resolv.conf"; then
+        echo "Error: Failed to set DNS."
+        exit 1
+    fi
 fi
 
-# Check if a user is set up
-if [ ! -f "${UBUNTU_ROOT}/etc/passwd" ] || ! grep -q "^[^:]*:[^:]*:[0-9]\+:" "${UBUNTU_ROOT}/etc/passwd"; then
-    echo "No user found in Ubuntu. Creating a new user..."
+# ------------------------------
+# ユーザー作成（存在する場合はスキップ）
+# ------------------------------
+if ! grep -q "1000:" "${UBUNTU_ROOT}/etc/passwd"; then
+    echo "Creating new user in Ubuntu..."
     read -p "Enter username: " UBUNTU_USER
     read -s -p "Enter password: " UBUNTU_PASS
     echo
 
-    # Create user in chroot environment
     mkdir -p "${UBUNTU_ROOT}/home/${UBUNTU_USER}"
-    echo "${UBUNTU_USER}:$(echo "${UBUNTU_PASS}" | openssl passwd -6 -stdin):1000:1000:User,,,:/home/${UBUNTU_USER}:/bin/bash" >> "${UBUNTU_ROOT}/etc/passwd"
-    echo "${UBUNTU_USER}:x:1000:1000::/home/${UBUNTU_USER}:/bin/bash" >> "${UBUNTU_ROOT}/etc/passwd"
-    echo "${UBUNTU_USER}:!:19117:0:99999:7:::" >> "${UBUNTU_ROOT}/etc/shadow"
+
+    HASHED_PASS=$(openssl passwd -6 <<<"${UBUNTU_PASS}")
+
+    cat <<EOF >> "${UBUNTU_ROOT}/etc/passwd"
+${UBUNTU_USER}:x:1000:1000::/home/${UBUNTU_USER}:/bin/bash
+EOF
+
+    cat <<EOF >> "${UBUNTU_ROOT}/etc/shadow"
+${UBUNTU_USER}:${HASHED_PASS}:0:0:99999:7:::
+EOF
+
     echo "${UBUNTU_USER} ALL=(ALL) NOPASSWD: ALL" >> "${UBUNTU_ROOT}/etc/sudoers"
 
     echo "User ${UBUNTU_USER} created successfully!"
+else
+    echo "User already exists. Skipping creation."
 fi
 
-# Start the Ubuntu environment using proot
+# ------------------------------
+# proot 実行前チェック
+# ------------------------------
+if [ ! -x "${PROOT_BIN}" ]; then
+    echo "Error: proot binary not found or not executable at ${PROOT_BIN}."
+    exit 1
+fi
+
+# ------------------------------
+# Ubuntu 環境起動
+# ------------------------------
 echo "Starting Ubuntu environment using proot..."
-./proot -0 --rootfs="${UBUNTU_ROOT}" -w / -b /proc:/proc -b /sys:/sys -b /dev:/dev env PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash
+exec "${PROOT_BIN}" -0 \
+    --rootfs="${UBUNTU_ROOT}" \
+    -w / \
+    -b /proc:/proc \
+    -b /sys:/sys \
+    -b /dev:/dev \
+    env PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash
