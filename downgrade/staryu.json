@@ -1,0 +1,498 @@
+[
+  {
+    "chrome_version": "141.0.7390.35",
+    "platform_version": "16404.23.0",
+    "channel": "Beta",
+    "date": "2025/09/24",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16404.23.0_staryu_recovery_beta-channel_StaryuMPKeys-v9.bin.zip",
+    "filename": "chromeos_16404.23.0_staryu_recovery_beta-channel_StaryuMPKeys-v9.bin.zip"
+  },
+  {
+    "chrome_version": "140.0.7339.201",
+    "platform_version": "16371.49.0",
+    "channel": "Stable",
+    "date": "2025/09/24",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16371.49.0_staryu_recovery_stable-channel_StaryuMPKeys-v9.bin.zip",
+    "filename": "chromeos_16371.49.0_staryu_recovery_stable-channel_StaryuMPKeys-v9.bin.zip"
+  },
+  {
+    "chrome_version": "132.0.6834.242",
+    "platform_version": "16093.116.0",
+    "channel": "LTS",
+    "date": "2025/09/22",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16093.116.0_staryu_recovery_lts-channel_mp-v7.bin.zip",
+    "filename": "chromeos_16093.116.0_staryu_recovery_lts-channel_mp-v7.bin.zip"
+  },
+  {
+    "chrome_version": "138.0.7204.261",
+    "platform_version": "16295.76.0",
+    "channel": "LTC",
+    "date": "2025/09/19",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16295.76.0_staryu_recovery_ltc-channel_StaryuMPKeys-v9.bin.zip",
+    "filename": "chromeos_16295.76.0_staryu_recovery_ltc-channel_StaryuMPKeys-v9.bin.zip"
+  },
+  {
+    "chrome_version": "140.0.7339.117",
+    "platform_version": "16371.35.0",
+    "channel": "Beta",
+    "date": "2025/09/11",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16371.35.0_staryu_recovery_beta-channel_StaryuMPKeys-v9.bin.zip",
+    "filename": "chromeos_16371.35.0_staryu_recovery_beta-channel_StaryuMPKeys-v9.bin.zip"
+  },
+  {
+    "chrome_version": "139.0.7258.164",
+    "platform_version": "16328.65.0",
+    "channel": "Stable",
+    "date": "2025/09/09",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16328.65.0_staryu_recovery_stable-channel_StaryuMPKeys-v9.bin.zip",
+    "filename": "chromeos_16328.65.0_staryu_recovery_stable-channel_StaryuMPKeys-v9.bin.zip"
+  },
+  {
+    "chrome_version": "138.0.7204.255",
+    "platform_version": "16295.75.0",
+    "channel": "LTC",
+    "date": "2025/09/08",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16295.75.0_staryu_recovery_ltc-channel_StaryuMPKeys-v9.bin.zip",
+    "filename": "chromeos_16295.75.0_staryu_recovery_ltc-channel_StaryuMPKeys-v9.bin.zip"
+  },
+  {
+    "chrome_version": "132.0.6834.241",
+    "platform_version": "16093.115.0",
+    "channel": "LTS",
+    "date": "2025/08/29",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16093.115.0_staryu_recovery_lts-channel_mp-v7.bin.zip",
+    "filename": "chromeos_16093.115.0_staryu_recovery_lts-channel_mp-v7.bin.zip"
+  },
+  {
+    "chrome_version": "140.0.7339.29",
+    "platform_version": "16371.20.0",
+    "channel": "Beta",
+    "date": "2025/08/27",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16371.20.0_staryu_recovery_beta-channel_StaryuMPKeys-v9.bin.zip",
+    "filename": "chromeos_16371.20.0_staryu_recovery_beta-channel_StaryuMPKeys-v9.bin.zip"
+  },
+  {
+    "chrome_version": "138.0.7204.232",
+    "platform_version": "16295.74.0",
+    "channel": "Stable",
+    "date": "2025/08/15",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16295.74.0_staryu_recovery_stable-channel_StaryuMPKeys-v9.bin.zip",
+    "filename": "chromeos_16295.74.0_staryu_recovery_stable-channel_StaryuMPKeys-v9.bin.zip"
+  },
+  {
+    "chrome_version": "138.0.7204.221",
+    "platform_version": "16295.70.0",
+    "channel": "Stable",
+    "date": "2025/08/11",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16295.70.0_staryu_recovery_stable-channel_StaryuMPKeys-v9.bin.zip",
+    "filename": "chromeos_16295.70.0_staryu_recovery_stable-channel_StaryuMPKeys-v9.bin.zip"
+  },
+  {
+    "chrome_version": "138.0.7204.163",
+    "platform_version": "16295.54.0",
+    "channel": "LTC",
+    "date": "2025/08/06",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16295.54.0_staryu_recovery_ltc-channel_StaryuMPKeys-v7.bin.zip",
+    "filename": "chromeos_16295.54.0_staryu_recovery_ltc-channel_StaryuMPKeys-v7.bin.zip"
+  },
+  {
+    "chrome_version": "139.0.7258.70",
+    "platform_version": "16328.36.0",
+    "channel": "Beta",
+    "date": "2025/08/06",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16328.36.0_staryu_recovery_beta-channel_StaryuMPKeys-v9.bin.zip",
+    "filename": "chromeos_16328.36.0_staryu_recovery_beta-channel_StaryuMPKeys-v9.bin.zip"
+  },
+  {
+    "chrome_version": "138.0.7204.163",
+    "platform_version": "16295.54.0",
+    "channel": "Stable",
+    "date": "2025/07/30",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16295.54.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip",
+    "filename": "chromeos_16295.54.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip"
+  },
+  {
+    "chrome_version": "137.0.7151.137",
+    "platform_version": "16267.66.0",
+    "channel": "Stable",
+    "date": "2025/07/18",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16267.66.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip",
+    "filename": "chromeos_16267.66.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip"
+  },
+  {
+    "chrome_version": "132.0.6834.227",
+    "platform_version": "16093.109.0",
+    "channel": "LTS",
+    "date": "2025/07/18",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16093.109.0_staryu_recovery_lts-channel_mp-v7.bin.zip",
+    "filename": "chromeos_16093.109.0_staryu_recovery_lts-channel_mp-v7.bin.zip"
+  },
+  {
+    "chrome_version": "138.0.7204.155",
+    "platform_version": "16295.51.0",
+    "channel": "Beta",
+    "date": "2025/07/15",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16295.51.0_staryu_recovery_beta-channel_StaryuMPKeys-v7.bin.zip",
+    "filename": "chromeos_16295.51.0_staryu_recovery_beta-channel_StaryuMPKeys-v7.bin.zip"
+  },
+  {
+    "chrome_version": "137.0.7151.123",
+    "platform_version": "16267.51.0",
+    "channel": "Stable",
+    "date": "2025/06/25",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16267.51.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip",
+    "filename": "chromeos_16267.51.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip"
+  },
+  {
+    "chrome_version": "137.0.7151.86",
+    "platform_version": "16267.43.0",
+    "channel": "Stable",
+    "date": "2025/06/17",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16267.43.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip",
+    "filename": "chromeos_16267.43.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip"
+  },
+  {
+    "chrome_version": "136.0.7103.158",
+    "platform_version": "16238.64.0",
+    "channel": "Stable",
+    "date": "2025/06/10",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16238.64.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip",
+    "filename": "chromeos_16238.64.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip"
+  },
+  {
+    "chrome_version": "132.0.6834.224",
+    "platform_version": "16093.106.0",
+    "channel": "LTS",
+    "date": "2025/06/04",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16093.106.0_staryu_recovery_lts-channel_mp-v7.bin.zip",
+    "filename": "chromeos_16093.106.0_staryu_recovery_lts-channel_mp-v7.bin.zip"
+  },
+  {
+    "chrome_version": "132.0.6834.224",
+    "platform_version": "16093.106.0",
+    "channel": "LTC",
+    "date": "2025/06/04",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16093.106.0_staryu_recovery_ltc-channel_mp-v7.bin.zip",
+    "filename": "chromeos_16093.106.0_staryu_recovery_ltc-channel_mp-v7.bin.zip"
+  },
+  {
+    "chrome_version": "137.0.7151.80",
+    "platform_version": "16267.37.0",
+    "channel": "Beta",
+    "date": "2025/06/04",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16267.37.0_staryu_recovery_beta-channel_StaryuMPKeys-v7.bin.zip",
+    "filename": "chromeos_16267.37.0_staryu_recovery_beta-channel_StaryuMPKeys-v7.bin.zip"
+  },
+  {
+    "chrome_version": "136.0.7103.150",
+    "platform_version": "16238.62.0",
+    "channel": "Stable",
+    "date": "2025/06/04",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16238.62.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip",
+    "filename": "chromeos_16238.62.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip"
+  },
+  {
+    "chrome_version": "136.0.7103.142",
+    "platform_version": "16238.54.0",
+    "channel": "Stable",
+    "date": "2025/05/28",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16238.54.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip",
+    "filename": "chromeos_16238.54.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip"
+  },
+  {
+    "chrome_version": "136.0.7103.102",
+    "platform_version": "16238.47.0",
+    "channel": "Stable",
+    "date": "2025/05/20",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16238.47.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip",
+    "filename": "chromeos_16238.47.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip"
+  },
+  {
+    "chrome_version": "135.0.7049.104",
+    "platform_version": "16209.50.0",
+    "channel": "Stable",
+    "date": "2025/04/24",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16209.50.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip",
+    "filename": "chromeos_16209.50.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip"
+  },
+  {
+    "chrome_version": "134.0.6998.198",
+    "platform_version": "16181.61.0",
+    "channel": "Stable",
+    "date": "2025/04/15",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16181.61.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip",
+    "filename": "chromeos_16181.61.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip"
+  },
+  {
+    "chrome_version": "134.0.6998.183",
+    "platform_version": "16181.54.0",
+    "channel": "Stable",
+    "date": "2025/04/09",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16181.54.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip",
+    "filename": "chromeos_16181.54.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip"
+  },
+  {
+    "chrome_version": "134.0.6998.130",
+    "platform_version": "16181.47.0",
+    "channel": "Stable",
+    "date": "2025/03/27",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16181.47.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip",
+    "filename": "chromeos_16181.47.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip"
+  },
+  {
+    "chrome_version": "132.0.6834.211",
+    "platform_version": "16093.93.0",
+    "channel": "LTC",
+    "date": "2025/03/11",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16093.93.0_staryu_recovery_ltc-channel_mp-v7.bin.zip",
+    "filename": "chromeos_16093.93.0_staryu_recovery_ltc-channel_mp-v7.bin.zip"
+  },
+  {
+    "chrome_version": "133.0.6943.146",
+    "platform_version": "16151.53.0",
+    "channel": "Stable",
+    "date": "2025/03/07",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16151.53.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip",
+    "filename": "chromeos_16151.53.0_staryu_recovery_stable-channel_StaryuMPKeys-v7.bin.zip"
+  },
+  {
+    "chrome_version": "126.0.6478.265",
+    "platform_version": "15886.90.0",
+    "channel": "LTS",
+    "date": "2025/03/04",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15886.90.0_staryu_recovery_lts-channel_mp-v4.bin.zip",
+    "filename": "chromeos_15886.90.0_staryu_recovery_lts-channel_mp-v4.bin.zip"
+  },
+  {
+    "chrome_version": "131.0.6778.241",
+    "platform_version": "16063.68.0",
+    "channel": "Stable",
+    "date": "2025/01/09",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16063.68.0_staryu_recovery_stable-channel_mp-v6.bin.zip",
+    "filename": "chromeos_16063.68.0_staryu_recovery_stable-channel_mp-v6.bin.zip"
+  },
+  {
+    "chrome_version": "130.0.6723.126",
+    "platform_version": "16033.58.0",
+    "channel": "Stable",
+    "date": "2024/11/19",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16033.58.0_staryu_recovery_stable-channel_mp-v6.bin.zip",
+    "filename": "chromeos_16033.58.0_staryu_recovery_stable-channel_mp-v6.bin.zip"
+  },
+  {
+    "chrome_version": "126.0.6478.257",
+    "platform_version": "15886.82.0",
+    "channel": "LTS",
+    "date": "2024/11/14",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15886.82.0_staryu_recovery_lts-channel_mp-v4.bin.zip",
+    "filename": "chromeos_15886.82.0_staryu_recovery_lts-channel_mp-v4.bin.zip"
+  },
+  {
+    "chrome_version": "130.0.6723.101",
+    "platform_version": "16033.51.0",
+    "channel": "Stable",
+    "date": "2024/11/08",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16033.51.0_staryu_recovery_stable-channel_mp-v6.bin.zip",
+    "filename": "chromeos_16033.51.0_staryu_recovery_stable-channel_mp-v6.bin.zip"
+  },
+  {
+    "chrome_version": "129.0.6668.112",
+    "platform_version": "16002.60.0",
+    "channel": "Stable",
+    "date": "2024/10/24",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_16002.60.0_staryu_recovery_stable-channel_mp-v6.bin.zip",
+    "filename": "chromeos_16002.60.0_staryu_recovery_stable-channel_mp-v6.bin.zip"
+  },
+  {
+    "chrome_version": "128.0.6613.163",
+    "platform_version": "15964.59.0",
+    "channel": "Stable",
+    "date": "2024/09/27",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15964.59.0_staryu_recovery_stable-channel_mp-v4.bin.zip",
+    "filename": "chromeos_15964.59.0_staryu_recovery_stable-channel_mp-v4.bin.zip"
+  },
+  {
+    "chrome_version": "128.0.6613.161",
+    "platform_version": "15964.58.0",
+    "channel": "Stable",
+    "date": "2024/09/27",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15964.58.0_staryu_recovery_stable-channel_mp-v4.bin.zip",
+    "filename": "chromeos_15964.58.0_staryu_recovery_stable-channel_mp-v4.bin.zip"
+  },
+  {
+    "chrome_version": "126.0.6478.253",
+    "platform_version": "15886.78.0",
+    "channel": "LTC",
+    "date": "2024/09/27",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15886.78.0_staryu_recovery_ltc-channel_mp-v4.bin.zip",
+    "filename": "chromeos_15886.78.0_staryu_recovery_ltc-channel_mp-v4.bin.zip"
+  },
+  {
+    "chrome_version": "127.0.6533.132",
+    "platform_version": "15917.71.0",
+    "channel": "Stable",
+    "date": "2024/08/29",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15917.71.0_staryu_recovery_stable-channel_mp-v4.bin.zip",
+    "filename": "chromeos_15917.71.0_staryu_recovery_stable-channel_mp-v4.bin.zip"
+  },
+  {
+    "chrome_version": "126.0.6478.132",
+    "platform_version": "15886.44.0",
+    "channel": "Stable",
+    "date": "2024/07/02",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15886.44.0_staryu_recovery_stable-channel_mp-v4.bin.zip",
+    "filename": "chromeos_15886.44.0_staryu_recovery_stable-channel_mp-v4.bin.zip"
+  },
+  {
+    "chrome_version": "126.0.6478.178",
+    "platform_version": "15886.44.0",
+    "channel": "Stable",
+    "date": "2024/07/02",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15886.44.0_staryu_recovery_stable-channel_mp-v4.bin.zip",
+    "filename": "chromeos_15886.44.0_staryu_recovery_stable-channel_mp-v4.bin.zip"
+  },
+  {
+    "chrome_version": "125.0.6422.197",
+    "platform_version": "15853.67.0",
+    "channel": "Stable",
+    "date": "2024/06/21",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15853.67.0_staryu_recovery_stable-channel_mp-v4.bin.zip",
+    "filename": "chromeos_15853.67.0_staryu_recovery_stable-channel_mp-v4.bin.zip"
+  },
+  {
+    "chrome_version": "125.0.6422.169",
+    "platform_version": "15853.61.0",
+    "channel": "Stable",
+    "date": "2024/06/14",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15853.61.0_staryu_recovery_stable-channel_mp-v3.bin.zip",
+    "filename": "chromeos_15853.61.0_staryu_recovery_stable-channel_mp-v3.bin.zip"
+  },
+  {
+    "chrome_version": "125.0.6422.140",
+    "platform_version": "15853.53.0",
+    "channel": "Stable",
+    "date": "2024/06/05",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15853.53.0_staryu_recovery_stable-channel_mp-v3.bin.zip",
+    "filename": "chromeos_15853.53.0_staryu_recovery_stable-channel_mp-v3.bin.zip"
+  },
+  {
+    "chrome_version": "124.0.6367.225",
+    "platform_version": "15823.60.0",
+    "channel": "Stable",
+    "date": "2024/05/24",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15823.60.0_staryu_recovery_stable-channel_mp-v3.bin.zip",
+    "filename": "chromeos_15823.60.0_staryu_recovery_stable-channel_mp-v3.bin.zip"
+  },
+  {
+    "chrome_version": "124.0.6367.219",
+    "platform_version": "15823.58.0",
+    "channel": "Stable",
+    "date": "2024/05/18",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15823.58.0_staryu_recovery_stable-channel_mp-v3.bin.zip",
+    "filename": "chromeos_15823.58.0_staryu_recovery_stable-channel_mp-v3.bin.zip"
+  },
+  {
+    "chrome_version": "124.0.6367.95",
+    "platform_version": "15823.40.0",
+    "channel": "Stable",
+    "date": "2024/05/06",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15823.40.0_staryu_recovery_stable-channel_mp-v3.bin.zip",
+    "filename": "chromeos_15823.40.0_staryu_recovery_stable-channel_mp-v3.bin.zip"
+  },
+  {
+    "chrome_version": "123.0.6312.132",
+    "platform_version": "15786.58.0",
+    "channel": "Stable",
+    "date": "2024/04/23",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15786.58.0_staryu_recovery_stable-channel_mp-v3.bin.zip",
+    "filename": "chromeos_15786.58.0_staryu_recovery_stable-channel_mp-v3.bin.zip"
+  },
+  {
+    "chrome_version": "123.0.6312.112",
+    "platform_version": "15786.48.0",
+    "channel": "Stable",
+    "date": "2024/04/12",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15786.48.0_staryu_recovery_stable-channel_mp-v3.bin.zip",
+    "filename": "chromeos_15786.48.0_staryu_recovery_stable-channel_mp-v3.bin.zip"
+  },
+  {
+    "chrome_version": "121.0.6167.212",
+    "platform_version": "15699.72.0",
+    "channel": "Stable",
+    "date": "2024/03/04",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15699.72.0_staryu_recovery_stable-channel_mp-v3.bin.zip",
+    "filename": "chromeos_15699.72.0_staryu_recovery_stable-channel_mp-v3.bin.zip"
+  },
+  {
+    "chrome_version": "121.0.6167.188",
+    "platform_version": "15699.66.0",
+    "channel": "Stable",
+    "date": "2024/02/21",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15699.66.0_staryu_recovery_stable-channel_mp-v3.bin.zip",
+    "filename": "chromeos_15699.66.0_staryu_recovery_stable-channel_mp-v3.bin.zip"
+  },
+  {
+    "chrome_version": "121.0.6167.159",
+    "platform_version": "15699.58.0",
+    "channel": "Stable",
+    "date": "2024/02/14",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15699.58.0_staryu_recovery_stable-channel_mp-v3.bin.zip",
+    "filename": "chromeos_15699.58.0_staryu_recovery_stable-channel_mp-v3.bin.zip"
+  },
+  {
+    "chrome_version": "120.0.6099.272",
+    "platform_version": "15662.88.0",
+    "channel": "Stable",
+    "date": "2024/02/05",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15662.88.0_staryu_recovery_stable-channel_mp-v3.bin.zip",
+    "filename": "chromeos_15662.88.0_staryu_recovery_stable-channel_mp-v3.bin.zip"
+  },
+  {
+    "chrome_version": "120.0.6099.235",
+    "platform_version": "15662.76.0",
+    "channel": "Stable",
+    "date": "2024/01/20",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15662.76.0_staryu_recovery_stable-channel_mp-v3.bin.zip",
+    "filename": "chromeos_15662.76.0_staryu_recovery_stable-channel_mp-v3.bin.zip"
+  },
+  {
+    "chrome_version": "120.0.6099.203",
+    "platform_version": "15662.64.0",
+    "channel": "Stable",
+    "date": "2024/01/08",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15662.64.0_staryu_recovery_stable-channel_mp-v3.bin.zip",
+    "filename": "chromeos_15662.64.0_staryu_recovery_stable-channel_mp-v3.bin.zip"
+  },
+  {
+    "chrome_version": "119.0.6045.214",
+    "platform_version": "15633.72.0",
+    "channel": "Stable",
+    "date": "2024/01/02",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15633.72.0_staryu_recovery_stable-channel_mp-v2.bin.zip",
+    "filename": "chromeos_15633.72.0_staryu_recovery_stable-channel_mp-v2.bin.zip"
+  },
+  {
+    "chrome_version": "119.0.6045.212",
+    "platform_version": "15633.69.0",
+    "channel": "Stable",
+    "date": "2023/12/15",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15633.69.0_staryu_recovery_stable-channel_mp-v2.bin.zip",
+    "filename": "chromeos_15633.69.0_staryu_recovery_stable-channel_mp-v2.bin.zip"
+  },
+  {
+    "chrome_version": "119.0.6045.209",
+    "platform_version": "15633.65.0",
+    "channel": "Stable",
+    "date": "2023/12/12",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15633.65.0_staryu_recovery_stable-channel_mp-v2.bin.zip",
+    "filename": "chromeos_15633.65.0_staryu_recovery_stable-channel_mp-v2.bin.zip"
+  },
+  {
+    "chrome_version": "120.0.6099.80",
+    "platform_version": "15662.35.0",
+    "channel": "Beta",
+    "date": "2023/12/11",
+    "download_url": "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_15662.35.0_staryu_recovery_beta-channel_mp-v2.bin.zip",
+    "filename": "chromeos_15662.35.0_staryu_recovery_beta-channel_mp-v2.bin.zip"
+  }
+]
