@@ -88,30 +88,45 @@ echo "  Download URL: $DOWNLOAD_URL"
 echo ""
 
 # Download destination
-DOWNLOAD_DIR="/tmp/chromeos_recovery"
+DOWNLOAD_DIR="/usr/local/chrome"
 mkdir -p "$DOWNLOAD_DIR"
-IMG="$DOWNLOAD_DIR/$FILENAME"
-
-# Check if download directory exists and create if needed
-if [ ! -d "$DOWNLOAD_DIR" ]; then
-  echo "📁 Creating download directory: $DOWNLOAD_DIR"
-  mkdir -p "$DOWNLOAD_DIR"
-fi
 
 # Verify download directory is writable
-if [ ! -w "$DOWNLOAD_DIR" ]; then
-  echo "❌ Error: Download directory $DOWNLOAD_DIR is not writable."
+if [ ! -d "$DOWNLOAD_DIR" ] || [ ! -w "$DOWNLOAD_DIR" ]; then
+  echo "❌ Error: Download directory $DOWNLOAD_DIR is not accessible or writable."
   exit 1
 fi
 
-# Download image
+# Check available space (at least 100MB free)
+AVAILABLE_SPACE=$(df "$DOWNLOAD_DIR" | awk 'NR==2 {print $4}')
+if [ "$AVAILABLE_SPACE" -lt 102400 ]; then
+  echo "❌ Error: Insufficient disk space. Need at least 100MB free."
+  df -h "$DOWNLOAD_DIR"
+  exit 1
+fi
+
+IMG="$DOWNLOAD_DIR/$FILENAME"
+
+# Download image with retry logic
 echo "📥 Downloading image..."
-if ! curl -L -o "$IMG" "$DOWNLOAD_URL"; then
-  echo "❌ Error: Failed to download image."
-  exit 1
-fi
+MAX_RETRIES=3
+RETRY_COUNT=0
 
-echo "✅ Image downloaded successfully to: $IMG"
+while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+  if curl -L --fail -o "$IMG" "$DOWNLOAD_URL"; then
+    echo "✅ Image downloaded successfully to: $IMG"
+    break
+  else
+    RETRY_COUNT=$((RETRY_COUNT + 1))
+    echo "❌ Download failed (attempt $RETRY_COUNT/$MAX_RETRIES)"
+    if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+      sleep 2
+    else
+      echo "❌ Error: Failed to download image after $MAX_RETRIES attempts."
+      exit 1
+    fi
+  fi
+done
 
 # Skip write option
 echo ""
