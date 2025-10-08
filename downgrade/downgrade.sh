@@ -30,20 +30,32 @@ fi
 display_versions() {
   echo "📋 Available Versions (Newest First):"
   echo "========================================"
+  # Create temporary file for version list
+  TEMP_LIST=$(mktemp)
+  trap 'rm -f "$TEMP_LIST"' EXIT
+  
+  # Generate version list and save to temp file
   jq -r '.[] | "\(.chrome_version) (\(.platform_version)) - \(.channel) - \(.date)"' "$TMP_JSON" | \
     sort -rV | \
     nl -v0 -w2 -s') ' | \
     sed 's/^/  /' | \
-    cat -n
+    cat -n > "$TEMP_LIST"
+  
+  # Display the list
+  cat "$TEMP_LIST"
   echo "========================================"
 }
 
 # Display versions with header
 display_versions
 
+# Get total count of versions
+TOTAL_VERSIONS=$(jq length "$TMP_JSON")
+echo "Total versions available: $TOTAL_VERSIONS"
+
 # Get user selection
 echo ""
-read -p "🔢 Enter version number to install (0-${LINE_COUNT}): " CHOICE
+read -p "🔢 Enter version number to install (0-$((TOTAL_VERSIONS-1))): " CHOICE
 
 # Validate input
 if [[ ! "$CHOICE" =~ ^[0-9]+$ ]]; then
@@ -51,11 +63,9 @@ if [[ ! "$CHOICE" =~ ^[0-9]+$ ]]; then
   exit 1
 fi
 
-# Count total lines in version list
-LINE_COUNT=$(wc -l < /tmp/version_list.txt)
-
-if [ "$CHOICE" -ge "$LINE_COUNT" ]; then
-  echo "❌ Error: Invalid selection. Choose between 0 and $((LINE_COUNT-1))."
+# Validate range
+if [ "$CHOICE" -lt 0 ] || [ "$CHOICE" -ge "$TOTAL_VERSIONS" ]; then
+  echo "❌ Error: Invalid selection. Choose between 0 and $((TOTAL_VERSIONS-1))."
   exit 1
 fi
 
