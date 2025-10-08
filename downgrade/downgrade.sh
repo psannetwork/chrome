@@ -5,7 +5,7 @@ set -e
 MMC_BASE="/dev/mmcblk0"
 
 # Check required commands
-for cmd in losetup dd cgpt lsblk findmnt curl jq; do
+for cmd in losetup dd cgpt lsblk findmnt curl jq gzip tar; do
   if ! command -v "$cmd" &> /dev/null; then
     echo "❌ Error: '$cmd' is not installed."
     exit 1
@@ -92,6 +92,18 @@ DOWNLOAD_DIR="/tmp/chromeos_recovery"
 mkdir -p "$DOWNLOAD_DIR"
 IMG="$DOWNLOAD_DIR/$FILENAME"
 
+# Check if download directory exists and create if needed
+if [ ! -d "$DOWNLOAD_DIR" ]; then
+  echo "📁 Creating download directory: $DOWNLOAD_DIR"
+  mkdir -p "$DOWNLOAD_DIR"
+fi
+
+# Verify download directory is writable
+if [ ! -w "$DOWNLOAD_DIR" ]; then
+  echo "❌ Error: Download directory $DOWNLOAD_DIR is not writable."
+  exit 1
+fi
+
 # Download image
 echo "📥 Downloading image..."
 if ! curl -L -o "$IMG" "$DOWNLOAD_URL"; then
@@ -99,7 +111,7 @@ if ! curl -L -o "$IMG" "$DOWNLOAD_URL"; then
   exit 1
 fi
 
-echo "✅ Image downloaded successfully!"
+echo "✅ Image downloaded successfully to: $IMG"
 
 # Skip write option
 echo ""
@@ -138,6 +150,31 @@ if [[ "$SKIP_WRITE" =~ ^[Yy]$ ]]; then
   cgpt add "$MMC_BASE" -i "$KERNEL_INDEX" -P 10 -T 5 -S 0
   echo "✅ Boot partition configuration completed!"
   exit 0
+fi
+
+# Check if image is a zip file and extract it
+echo "🔍 Checking image type..."
+if [[ "$FILENAME" == *.zip ]]; then
+  echo "📦 Detected ZIP file, extracting..."
+  # Create temporary directory for extraction
+  EXTRACT_DIR=$(mktemp -d)
+  trap 'rm -rf "$EXTRACT_DIR"' EXIT
+  
+  # Extract the zip file using tar (works on Chromebook)
+  if tar -xf "$IMG" -C "$EXTRACT_DIR"; then
+    # Find the .bin file inside
+    BIN_FILE=$(find "$EXTRACT_DIR" -name "*.bin" -type f | head -1)
+    if [[ -n "$BIN_FILE" ]]; then
+      echo "✅ Found binary file: $BIN_FILE"
+      IMG="$BIN_FILE"
+    else
+      echo "❌ Error: No .bin file found in ZIP archive."
+      exit 1
+    fi
+  else
+    echo "❌ Error: Failed to extract ZIP file."
+    exit 1
+  fi
 fi
 
 # Loopback setup
