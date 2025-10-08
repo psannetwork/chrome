@@ -167,25 +167,25 @@ if [[ "$SKIP_WRITE" =~ ^[Yy]$ ]]; then
   exit 0
 fi
 
-# Check if the file is a ZIP file that needs extraction
+# Check if the file needs extraction
 echo "🔍 Checking file type..."
 FILE_TYPE=$(file -b "$IMG" | tr '[:upper:]' '[:lower:]')
 
-# If it's a ZIP file, extract it
+# If it's a ZIP file, extract it using bsdtar with -x -f format
 if [[ "$FILENAME" == *.zip ]] && [[ "$FILE_TYPE" == *"zip archive data"* ]]; then
   echo "📦 Detected ZIP file, extracting with bsdtar..."
   # Create temporary directory for extraction
   EXTRACT_DIR=$(mktemp -d)
   trap 'rm -rf "$EXTRACT_DIR"' EXIT
   
-  # Extract with bsdtar
-  if bsdtar -xf "$IMG" -C "$EXTRACT_DIR" 2>/dev/null; then
+  # Extract using bsdtar with -x -f format
+  if bsdtar -x -f "$IMG" -C "$EXTRACT_DIR" 2>/dev/null; then
     echo "✅ Successfully extracted with bsdtar"
     # Find the .bin file inside
     BIN_FILE=$(find "$EXTRACT_DIR" -name "*.bin" -type f | head -1)
     if [[ -n "$BIN_FILE" ]]; then
       echo "✅ Found binary file: $BIN_FILE"
-      # Copy the bin file to download directory to avoid extraction issues
+      # Copy the bin file to download directory
       cp "$BIN_FILE" "$DOWNLOAD_DIR/" 2>/dev/null || true
       IMG="$DOWNLOAD_DIR/$(basename "$BIN_FILE")"
     else
