@@ -167,21 +167,18 @@ if [[ "$SKIP_WRITE" =~ ^[Yy]$ ]]; then
   exit 0
 fi
 
-# Check if the file is actually a .bin file (even if named .zip)
+# Check if the file needs extraction
 echo "🔍 Checking file type..."
 FILE_TYPE=$(file -b "$IMG" | tr '[:upper:]' '[:lower:]')
 
-# If it's a .zip file but contains a .bin, we need to extract it
-if [[ "$FILENAME" == *.zip ]] && [[ "$FILE_TYPE" == *"data"* ]]; then
-  echo "📦 File appears to be a .bin file with .zip extension, proceeding directly..."
-  # No extraction needed - it's already the correct binary format
-elif [[ "$FILENAME" == *.zip ]] && [[ "$FILE_TYPE" == *"zip archive data"* ]]; then
-  echo "📦 Detected actual ZIP file, extracting with bsdtar..."
+# If it's a .zip file, extract it using bsdtar
+if [[ "$FILENAME" == *.zip ]] && [[ "$FILE_TYPE" == *"zip archive data"* ]]; then
+  echo "📦 Detected ZIP file, extracting with bsdtar..."
   # Create temporary directory for extraction
   EXTRACT_DIR=$(mktemp -d)
   trap 'rm -rf "$EXTRACT_DIR"' EXIT
   
-  # Try to extract with bsdtar first (more reliable on Chromebook)
+  # Extract with bsdtar
   if bsdtar -xf "$IMG" -C "$EXTRACT_DIR" 2>/dev/null; then
     echo "✅ Successfully extracted with bsdtar"
     # Find the .bin file inside
@@ -193,33 +190,16 @@ elif [[ "$FILENAME" == *.zip ]] && [[ "$FILE_TYPE" == *"zip archive data"* ]]; t
       echo "❌ Error: No .bin file found in ZIP archive."
       exit 1
     fi
-  elif command -v tar &> /dev/null; then
-    # If bsdtar fails, try regular tar
-    echo "✅ Using regular tar to extract..."
-    tar -xf "$IMG" -C "$EXTRACT_DIR" 2>/dev/null
-    BIN_FILE=$(find "$EXTRACT_DIR" -name "*.bin" -type f | head -1)
-    if [[ -n "$BIN_FILE" ]]; then
-      echo "✅ Found binary file: $BIN_FILE"
-      IMG="$BIN_FILE"
-    else
-      echo "❌ Error: No .bin file found in ZIP archive."
-      exit 1
-    fi
-  elif command -v unzip &> /dev/null; then
-    # If tar fails, try unzip
-    echo "✅ Using unzip to extract..."
-    unzip -o "$IMG" -d "$EXTRACT_DIR" >/dev/null 2>&1
-    BIN_FILE=$(find "$EXTRACT_DIR" -name "*.bin" -type f | head -1)
-    if [[ -n "$BIN_FILE" ]]; then
-      echo "✅ Found binary file: $BIN_FILE"
-      IMG="$BIN_FILE"
-    else
-      echo "❌ Error: No .bin file found in ZIP archive."
-      exit 1
-    fi
   else
-    echo "⚠️  No extraction tool available. Assuming file is already correct format."
+    echo "❌ Error: Failed to extract with bsdtar"
+    exit 1
   fi
+fi
+
+# Verify the final image file exists and is readable
+if [ ! -f "$IMG" ] || [ ! -r "$IMG" ]; then
+  echo "❌ Error: Final image file is missing or not readable: $IMG"
+  exit 1
 fi
 
 # Loopback setup
