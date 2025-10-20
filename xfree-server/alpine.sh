@@ -2,7 +2,7 @@ set -e
 
 # Define variables
 ALPINE_ROOT="alpine-root"
-ALPINE_TARBALL="alpine-minirootfs-3.21.3-x86_64.tar.gz"
+ALPINE_TARBALL="alpine-minirootfs-3.22.0-x86_64.tar.gz"
 ALPINE_URL="http://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/${ALPINE_TARBALL}"
 
 # Function to download a file using wget or curl
